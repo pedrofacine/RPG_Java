@@ -1,2 +1,2 @@
 # RPG_Java
-RPG de texto em Java utilizando conceitos de Orientação a Objetos. O jogo permite que personagens enfrentem inimigos em combates baseados em rolagem de dados, utilizando itens de inventário (com múltiplas unidades de cada item) e navegando por uma história simples.
+RPG de texto em Java utilizando conceitos de Orientação a Objetos. O jogo permite que jogadores enfrentem adversários em disputas baseados em rolagem de dados, utilizando seus atributos e habilidades (com múltiplas unidades de cada item) e disputando uma partida de futebol.
