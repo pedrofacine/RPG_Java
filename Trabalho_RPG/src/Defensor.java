@@ -6,7 +6,6 @@ public class Arqueiro extends Jogador{
         this.nome = nome;
         this.condicionamento = 85;
         this.finalizacao = 60;
-        this.drible = 60;
         this.defesa = 80;
         this.nivel = 50;
         this.habilidades = new(Inventario);

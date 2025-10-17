@@ -6,8 +6,7 @@ public class MeioCampo extends Jogador {
         this.nome = nome;
         this.condicionamento = 70;
         this.finalizacao = 70;
-        this.drible = 80;
-        this.defesa = 60;
+        this.defesa = 70;
         this.nivel = 50;
         this.habilidades = new(Inventario);
     }

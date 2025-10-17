@@ -6,8 +6,7 @@ public class Atacante extends Jogador {
         this.nome = nome;
         this.condicionamento = 80;
         this.finalizacao = 80;
-        this.drible = 70;
-        this.defesa = 40;
+        this.defesa = 60;
         this.nivel = 50;
         this.habilidades = new(Inventario);
     }
