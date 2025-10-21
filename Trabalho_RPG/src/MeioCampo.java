@@ -4,10 +4,10 @@ public class MeioCampo extends Jogador {
 
     public class MeioCampo(String nome){
         this.nome = nome;
-        this.condicionamento = 70;
-        this.finalizacao = 70;
-        this.defesa = 70;
-        this.nivel = 50;
+        this.condicionamento = 7;
+        this.finalizacao = 7;
+        this.defesa = 7;
+        this.nivel = 5;
         this.habilidades = new(Inventario);
     }
 }

@@ -2,12 +2,40 @@
 
 public abstract class Jogador {
     protected String nome;
-    protected int condicionamento;
+    protected Double condicionamento;
     protected int finalizacao;
     protected int defesa;
     protected int nivel;
     protected Inventario habilidades;
 
+    public void enfrentar(Adversario adversario) {
+        System.out.println(this.nome + " está com a bola enfrentando " + adversario.getNome() + "!");
+        // jeh! se o jogador tem boa finalização,  PODE tentar afundar a rede, senão pode escolher tocar
+        boolean tentaFinalizar = this.finalizacao + dado() > 13;
+
+        if (tentaFinalizar) {
+            int ataque = this.finalizacao + dado();
+            int defesa = adversario.getDefesa() + adversario.dado();
+            System.out.println(this.nome + " tenta finalizar ao gol!");
+            System.out.println("Força do chute: " + finalizacao + " | Defesa do adversário: " + defesa);
+
+            if (ataque > defesa) {
+                if (dado() > 7) {
+                    return("Gol de " + this.nome + "!");
+                    this.nivel += 1;
+                }
+                else if(dado() > 3 && dado() <= 7){
+                    return("Na trave!");
+                }
+                else return("Chutou para fora!")
+            }
+        }
+        // TODO implenmentar escolher passar a bola
+    }
+
+    public int dado() {
+        return ((int) (Math.random() * (10)))+1;
+    }
 
     @Override
     public String toString(){ return "Jogador: " + nome + "Nível: " + nivel};
