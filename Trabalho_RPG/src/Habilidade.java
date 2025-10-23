@@ -1,4 +1,4 @@
-public class Habilidade extends Jogador{
+public class Habilidade{
     private String nome;
     private String desc;
     private String efeito;
@@ -11,4 +11,8 @@ public class Habilidade extends Jogador{
         this.qtd = 1;
     }
 
+    @Override
+    public String toString(){
+        return "{"+this.nome + '|' + this.desc + '|' +this.efeito + '|' + this.qtd + "}";
+    }
 }

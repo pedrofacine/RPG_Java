@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Inventario {
@@ -10,5 +11,10 @@ public class Inventario {
 
     public void addHabilidade(Habilidade h){
         this.habilidades.add(h);
+    }
+
+    @Override
+    public String toString(){
+        return this.habilidades.toString();
     }
 }

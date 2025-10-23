@@ -1,13 +1,22 @@
-//Classe Arqueiro
+public class Defensor extends Jogador{
 
-public class Arqueiro extends Jogador{
+    public Defensor(String nome){
+        super(nome, 6.0, 3, 8, 5);
+        this.habilidades = new Inventario();
 
-    public class Defensor(String nome){
-        this.nome = nome;
-        this.condicionamento = 8.5;
-        this.finalizacao = 6;
-        this.defesa = 8;
-        this.nivel = 5;
-        this.habilidades = new(Inventario);
+        this.habilidades.addHabilidade(
+                new Habilidade(
+                        "Bote",
+                        "Um bote preciso e na bola",
+                        "Desarme certo"
+                )
+        );
+    }
+
+    @Override
+    public String toString(){
+        return "Defensor: {" +
+                super.toString() +
+                "habilidades: " + this.habilidades + "}";
     }
 }

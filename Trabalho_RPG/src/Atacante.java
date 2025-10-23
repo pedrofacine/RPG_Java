@@ -2,13 +2,22 @@
 
 public class Atacante extends Jogador {
 
-    public class Atacante(String nome){
-        this.nome = nome;
-        this.condicionamento = 8;
-        this.finalizacao = 8;
-        this.defesa = 6;
-        this.nivel = 5;
-        this.habilidades = new(Inventario);
-    }
+    public Atacante(String nome){
+        super(nome, 8.0, 8, 3, 5);
+        this.habilidades = new Inventario();
 
+        this.habilidades.addHabilidade(
+                new Habilidade(
+                        "SuperKick",
+                        "Um super chute fortissimo!",
+                        "Aumento da finalizção"
+                )
+        );
+    }
+    @Override
+    public String toString(){
+        return "Atacante: {" +
+                super.toString() + '|'  +
+                "habilidades: " + this.habilidades + "}";
+    }
 }

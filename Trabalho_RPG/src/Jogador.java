@@ -8,6 +8,21 @@ public abstract class Jogador {
     protected int nivel;
     protected Inventario habilidades;
 
+    public Jogador(String nome, Double condicionamento, int finalizacao, int defesa, int nivel){
+        this.nome = nome;
+        this.condicionamento = condicionamento;
+        this.defesa = defesa;
+        this.nivel = nivel;
+        this.habilidades = new Inventario();
+
+        this.habilidades.addHabilidade(
+                new Habilidade("drible",
+                        "Passa pelo adversário",
+                        "Ignora a defesa do adversário"
+                )
+        );
+    }
+
     public void enfrentar(Adversario adversario) {
         System.out.println(this.nome + " está com a bola enfrentando " + adversario.getNome() + "!");
         // jeh! se o jogador tem boa finalização,  PODE tentar afundar a rede, senão pode escolher tocar
@@ -38,7 +53,10 @@ public abstract class Jogador {
     }
 
     @Override
-    public String toString(){ return "Jogador: " + nome + "Nível: " + nivel;}
+    public String toString(){ return "{" + this.nome + '|' + "Condicionamento" + this.condicionamento + '|' +
+            "Finalização: " + this.finalizacao + '|'
+            + "Defesa" + this.defesa + '|'
+            +"Nível: " + this.nivel + "}";}
 
     @Override
     public boolean equals(Object obj){
