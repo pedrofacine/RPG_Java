@@ -38,7 +38,7 @@ public abstract class Jogador {
     }
 
     @Override
-    public String toString(){ return "Jogador: " + nome + "Nível: " + nivel};
+    public String toString(){ return "Jogador: " + nome + "Nível: " + nivel;}
 
     @Override
     public boolean equals(Object obj){
