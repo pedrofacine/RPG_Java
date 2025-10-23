@@ -12,7 +12,7 @@ public abstract class Jogador {
         this.nome = nome;
         this.condicionamento = condicionamento;
         this.defesa = defesa;
-        this.nivel = nivel;
+        this.nivel = 1; //nivel sempre comecar em 1
         this.habilidades = new Inventario();
 
         this.habilidades.addHabilidade(
@@ -49,6 +49,30 @@ public abstract class Jogador {
 
         return "";
     }
+    public String serEnfrentado(Adversario adversario) {
+        System.out.println(this.nome + " está sendo atacado por " + adversario.getNome() + "!");
+
+        boolean tentaFinalizar = adversario.getFinalizacao() + adversario.dado() > 13;
+
+        if (tentaFinalizar) {
+            int ataque = adversario.getFinalizacao() + adversario.dado();
+            int defesa = this.defesa + dado();
+
+            System.out.println(adversario.getNome() + " tenta finalizar!");
+            System.out.println("Força do chute: " + ataque + " | Defesa de " + this.nome + ": " + defesa);
+
+            if (ataque > defesa) {
+                int resultado = dado();
+                if (resultado > 7) {
+                    return "Gol de " + adversario.getNome() + "!";
+                } else if (resultado > 3) {
+                    return "A bola bate na trave!";
+                }
+                else return adversario.getNome() + " chutou pra fora!";
+            }
+        }
+    }
+
 
     public int dado() {
         return ((int) (Math.random() * (10)))+1;
