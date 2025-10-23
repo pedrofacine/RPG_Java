@@ -7,7 +7,8 @@ public class MeioCampo extends Jogador {
         this.habilidades.addHabilidade(
                 new Habilidade("passe teleguiado",
                         "Um passe com enorme precisão",
-                        "Passe certo"
+                        "Passe certo",
+                        1
                 )
         );
     }

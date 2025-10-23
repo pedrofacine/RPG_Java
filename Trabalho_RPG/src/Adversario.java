@@ -7,22 +7,41 @@ public class Adversario extends Jogador {
                 new Habilidade(
                         "Bote",
                         "Um bote preciso e na bola",
-                        "Desarme certo"
+                        "Desarme certo",
+                        1
                 )
         );
         this.habilidades.addHabilidade(
                 new Habilidade(
                         "SuperKick",
                         "Um super chute fortissimo!",
-                        "Aumento da finalizção"
+                        "Aumento da finalizção",
+                        1
                 )
         );
         this.habilidades.addHabilidade(
                 new Habilidade("passe teleguiado",
                         "Um passe com enorme precisão",
-                        "Passe certo"
+                        "Passe certo",
+                        1
                 )
         );
+    }
+
+    public String getNome(){
+        return this.nome;
+    }
+    public double getCondicionaemento(){
+        return this.condicionamento;
+    }
+    public int getFinalizacao() {
+        return this.finalizacao;
+    }
+    public int getDefesa(){
+        return this.defesa;
+    }
+    public int getNivel(){
+        return this.nivel;
     }
 
     @Override

@@ -18,12 +18,13 @@ public abstract class Jogador {
         this.habilidades.addHabilidade(
                 new Habilidade("drible",
                         "Passa pelo adversário",
-                        "Ignora a defesa do adversário"
+                        "Ignora a defesa do adversário",
+                        1
                 )
         );
     }
 
-    public void enfrentar(Adversario adversario) {
+    public String enfrentar(Adversario adversario) {
         System.out.println(this.nome + " está com a bola enfrentando " + adversario.getNome() + "!");
         // jeh! se o jogador tem boa finalização,  PODE tentar afundar a rede, senão pode escolher tocar
         boolean tentaFinalizar = this.finalizacao + dado() > 13;
@@ -36,16 +37,17 @@ public abstract class Jogador {
 
             if (ataque > defesa) {
                 if (dado() > 7) {
-                    return("Gol de " + this.nome + "!");
                     this.nivel += 1;
+                    return("Gol de " + this.nome + "!");
                 }
                 else if(dado() > 3 && dado() <= 7){
                     return("Na trave!");
                 }
-                else return("Chutou para fora!")
+                else return("Chutou para fora!");
             }
         }
-        // TODO implenmentar escolher passar a bola
+
+        return "";
     }
 
     public int dado() {
@@ -53,26 +55,27 @@ public abstract class Jogador {
     }
 
     @Override
-    public String toString(){ return "{" + this.nome + '|' + "Condicionamento" + this.condicionamento + '|' +
-            "Finalização: " + this.finalizacao + '|'
-            + "Defesa" + this.defesa + '|'
+    public String toString(){ return "{" + this.nome + "|\n" + "Condicionamento: " + this.condicionamento + "|\n" +
+            "Finalização: " + this.finalizacao + "|\n"
+            + "Defesa: " + this.defesa + "|\n"
             +"Nível: " + this.nivel + "}";}
 
     @Override
     public boolean equals(Object obj){
         if(this == obj) return true;
         if(obj == null) return false;
-        if(this.getClass() != obj.getClass) return false;
+        if(this.getClass() != obj.getClass()) return false;
         Jogador j = (Jogador) obj;
         if(!this.nome.equals(((Jogador)obj).nome) || this.condicionamento != j.condicionamento || this.finalizacao != j.finalizacao ||
         this.defesa != j.defesa || this.nivel != j.nivel || !this.habilidades.equals(((Jogador)obj).habilidades)) return false;
+        return true;
     }
 
     @Override
     public int hashCode(){
         int r = 1;
         r = r * 2 + this.nome.hashCode();
-        r = r  * 2 + ((Integer)this.condicionamento).hashCode();
+        r = r  * 2 + ((Double) this.condicionamento).hashCode();
         r = r  * 2 + ((Integer)this.finalizacao).hashCode();
         r = r  * 2 + ((Integer)this.defesa).hashCode();
         r = r  * 2 + ((Integer)this.nivel).hashCode();

@@ -8,7 +8,8 @@ public class Defensor extends Jogador{
                 new Habilidade(
                         "Bote",
                         "Um bote preciso e na bola",
-                        "Desarme certo"
+                        "Desarme certo",
+                        1
                 )
         );
     }

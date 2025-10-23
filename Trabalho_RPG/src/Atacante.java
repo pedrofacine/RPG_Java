@@ -10,14 +10,15 @@ public class Atacante extends Jogador {
                 new Habilidade(
                         "SuperKick",
                         "Um super chute fortissimo!",
-                        "Aumento da finalizção"
+                        "Aumento da finalizção",
+                        1
                 )
         );
     }
     @Override
     public String toString(){
         return "Atacante: {" +
-                super.toString() + '|'  +
+                super.toString() + "|\n"  +
                 "habilidades: " + this.habilidades + "}";
     }
 }
