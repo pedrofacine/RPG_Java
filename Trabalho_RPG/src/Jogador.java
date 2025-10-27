@@ -77,6 +77,33 @@ public abstract class Jogador {
         }
         return "";
     }
+    //BASE METODO TOCAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    public String tocar(Jogador companheiro) {
+        System.out.println(this.nome + " olha para " + companheiro.getNome() + " e tenta fazer o passe...");
+
+        // Chance base de sucesso aumenta com condicionamento e nível
+        int chance = (int) (this.condicionamento * 10) + this.nivel + dado();
+
+        // Chance de erro aleatória do adversário (simula interceptação)
+        int defesaAdversaria = (int) (Math.random() * 15) + 1;
+
+        System.out.println("Precisão do passe: " + chance + " | Pressão adversária: " + defesaAdversaria);
+
+        if (chance > defesaAdversaria) {
+            if (dado() > 7) {
+                // Passe excelente gera bônus de moral ou experiência
+                this.nivel++;
+                return "Passe perfeito para " + companheiro.getNome();
+            } else {
+                return "Passe completo! " + companheiro.getNome() + " domina a bola.";
+            }
+        } else if (chance + dado() > defesaAdversaria) {
+            return "O passe foi meio arriscado, mas " + companheiro.getNome() + " conseguiu recuperar!";
+        } else {
+            return "Passe interceptado! O adversário rouba a bola!";
+        }
+    }
 
 
     public int dado() {

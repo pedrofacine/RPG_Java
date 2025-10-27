@@ -38,7 +38,7 @@ public class Jogo{
 
             if (pos.equals("meiocampo")) {
                 this.player = new MeioCampo(nome);
-                this.c1 = new Defensor("Davi Luiz");
+                this.c1 = new Defensor("David Luiz");
                 this.c2 = new Atacante("Jeh");
             }
             if (pos.equals("defensor")) {
@@ -48,7 +48,7 @@ public class Jogo{
             }
             if (pos.equals("atacante")) {
                 player = new Atacante(nome);
-                c1 = new Defensor("Davi Luiz");
+                c1 = new Defensor("David Luiz");
                 c2 = new MeioCampo("Neymar");
             }
 
