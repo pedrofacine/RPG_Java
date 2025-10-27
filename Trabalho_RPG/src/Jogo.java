@@ -2,6 +2,7 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import Jogador.*;
 
 public class Jogo{
     private Jogador player = null;
@@ -111,7 +112,7 @@ public class Jogo{
                     //tentarRecuar();
                     break;
                 case "4":
-                    //passar();
+                    tocar();
                     break;
                 default:
                     System.out.println("Opção inválida! Você se atrapalhou com a bola e não fez nada.");
@@ -155,3 +156,100 @@ public class Jogo{
         jogo.boasVindas();
     }
 }
+// ALGO COM POTENCIAL DE COZINHAMENTO JEH
+/*
+* // Método para o jogador avançar com a bola e potencialmente enfrentar um adversário.
+    private void avancarComABola() {
+        System.out.println(player.getNome() + " avança pelo campo...");
+
+        if (Math.random() > 0.3) { // 70% de chance de encontrar um adversário
+            this.adversarioAtual = new Adversario("Zagueiro Genérico");
+            System.out.println("Um adversário (" + adversarioAtual.getNome() + ") aparece na sua frente!");
+            System.out.println(this.adversarioAtual.toString());
+
+            // Enfrentar o adversário e obter o resultado (pode ser um gol)
+            String resultado = player.enfrentar(this.adversarioAtual);
+
+            if (!resultado.isEmpty()) {
+                System.out.println("\n*** " + resultado + " ***\n");
+                if (resultado.startsWith("Gol")) {
+                    // Se a implementação de 'enfrentar' for modificada para retornar o placar,
+                    // esta lógica seria ajustada. Por agora, apenas imprime o resultado.
+                    // Para o placar funcionar, a lógica de golsA e golsC precisará ser ajustada no loop principal.
+                }
+            } else {
+                System.out.println("Você driblou o adversário, mas perdeu um pouco de velocidade.");
+            }
+
+        } else {
+            System.out.println("Você correu por um espaço vazio e ganhou terreno!");
+        }
+    }
+
+    // Método para usar uma das habilidades do jogador.
+    private void usarHabilidade() {
+        System.out.println("\n--- SUAS HABILIDADES ---");
+        System.out.println(player.getHabilidades());
+
+        // A lógica do jogo não define o efeito real, então apenas simula o uso.
+        System.out.print("Digite o NOME da habilidade que deseja USAR (ou ENTER para cancelar): ");
+        String nomeHabilidade = Teclado.getUmString().trim();
+
+        if (nomeHabilidade.isEmpty()) {
+            System.out.println("Nenhuma habilidade utilizada.");
+            return;
+        }
+
+        // Simulação de uso (o Inventario não tem um método getHabilidade(String nome))
+        System.out.println(player.getNome() + " usa a habilidade **" + nomeHabilidade + "**!");
+        System.out.println("Você sente um aumento de poder! (Efeito de jogo não implementado)");
+        // Lógica para remover 1 da quantidade de habilidade deveria ser aqui.
+    }
+
+    // Método para recuar e analisar o jogo (simula defesa ou 'cura')
+    private void tentarRecuar() {
+        System.out.println(player.getNome() + " recua a bola para tentar analisar o jogo...");
+        if (player.dado() > 5) { // 50% de chance de sucesso
+            System.out.println("Recuo bem-sucedido! Você conseguiu ganhar mais fôlego e reanalisar a jogada.");
+            // Poderia aumentar condicionamento ou reduzir o risco de interceptação.
+        } else {
+            System.out.println("O adversário pressiona! Você tem que se livrar da bola rapidamente!");
+        }
+    }
+
+    // Método para passar a bola para um dos companheiros de time.
+    private void tocar() {
+        System.out.println("\nPara quem você deseja tocar a bola?");
+        System.out.println("1. " + c1.getNome() + " (" + c1.getClass().getSimpleName() + ")");
+        System.out.println("2. " + c2.getNome() + " (" + c2.getClass().getSimpleName() + ")");
+        System.out.print("Escolha (1 ou 2): ");
+        String escolha = Teclado.getUmString();
+
+        Jogador companheiro = null;
+        if (escolha.equals("1")) {
+            companheiro = c1;
+        } else if (escolha.equals("2")) {
+            companheiro = c2;
+        } else {
+            System.out.println("Escolha inválida! A posse de bola foi perdida.");
+            return;
+        }
+
+        String resultadoPasse = player.tocar(companheiro);
+        System.out.println(resultadoPasse);
+
+        // Se o passe foi interceptado, a posse de bola muda.
+        if (resultadoPasse.contains("interceptado")) {
+            System.out.println("Adversário está com a bola!");
+            // Simular ataque do adversário
+            if (this.adversarioAtual == null) {
+                this.adversarioAtual = new Adversario("Meia Ofensivo");
+            }
+            String resultadoAdversario = companheiro.serEnfrentado(this.adversarioAtual);
+            if (!resultadoAdversario.isEmpty()) {
+                System.out.println("\n*** " + resultadoAdversario + " ***\n");
+                // A lógica de placar precisaria ser inserida aqui.
+            }
+        }
+    }
+* */
