@@ -21,4 +21,20 @@ public class Atacante extends Jogador {
                 super.toString() + "|\n"  +
                 "habilidades: " + this.habilidades + "}";
     }
+
+    public Atacante(Atacante a){
+        super(a);
+        this.habilidades = (Inventario) a.habilidades.clone();
+    }
+
+    @Override
+    public Object clone(){
+        try{
+            Atacante copia = (Atacante) super.clone();
+            copia.habilidades = (Inventario) this.habilidades.clone();
+            return copia;
+        }catch(Exception e){
+            return null;
+        }
+    }
 }

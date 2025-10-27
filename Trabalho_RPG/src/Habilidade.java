@@ -42,6 +42,15 @@ public class Habilidade implements Comparable<Habilidade>{
         return this.nome.hashCode();
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(getClass() != obj.getClass()) return false;
+        Habilidade h = (Habilidade) obj;
+        return nome.equals(h.nome);
+    }
+
     public Habilidade(Habilidade h){
         this.nome = h.nome;
         this.desc = h.desc;

@@ -20,4 +20,20 @@ public class Defensor extends Jogador{
                 super.toString() +
                 "habilidades: " + this.habilidades + "}";
     }
+
+    public Defensor(Defensor d){
+        super(d);
+        this.habilidades = (Inventario) this.habilidades.clone();
+    }
+
+    @Override
+    public Object clone(){
+        try{
+            Defensor copia = (Defensor) super.clone();
+            copia.habilidades = (Inventario) this.habilidades.clone();
+            return copia;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

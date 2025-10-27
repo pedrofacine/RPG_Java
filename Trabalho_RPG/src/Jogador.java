@@ -24,6 +24,10 @@ public abstract class Jogador {
         );
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public String enfrentar(Adversario adversario) {
         System.out.println(this.nome + " está com a bola enfrentando " + adversario.getNome() + "!");
         // jeh! se o jogador tem boa finalização,  PODE tentar afundar a rede, senão pode escolher tocar
@@ -71,6 +75,7 @@ public abstract class Jogador {
                 else return adversario.getNome() + " chutou pra fora!";
             }
         }
+        return "";
     }
 
 
@@ -109,5 +114,25 @@ public abstract class Jogador {
         return r;
     }
 
+
+    public Jogador(Jogador j) {
+        this.nome = j.nome;
+        this.condicionamento = j.condicionamento;
+        this.finalizacao = j.finalizacao;
+        this.defesa = j.defesa;
+        this.nivel = j.nivel;
+        this.habilidades = (Inventario) j.habilidades.clone();
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            Jogador copia = (Jogador) super.clone();
+            copia.habilidades = (Inventario) this.habilidades.clone();
+            return copia;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }
