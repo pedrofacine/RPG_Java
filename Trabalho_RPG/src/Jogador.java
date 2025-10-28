@@ -7,14 +7,17 @@ public abstract class Jogador {
     protected int defesa;
     protected int nivel;
     protected Inventario habilidades;
+    protected int chanceDeChutar;
 
     public Jogador(String nome, Double condicionamento, int finalizacao, int defesa, int nivel){
         this.nome = nome;
         this.condicionamento = condicionamento;
+        this.finalizacao = finalizacao;
         this.defesa = defesa;
         this.nivel = 1; //nivel sempre comecar em 1
         this.habilidades = new Inventario();
 
+        this.chanceDeChutar = 0;
         this.habilidades.addHabilidade(
                 new Habilidade("drible",
                         "Passa pelo adversário",
@@ -27,27 +30,54 @@ public abstract class Jogador {
     public String getNome() {
         return nome;
     }
+    public double getCondicionamento() {
+        return condicionamento;
+    }
+
+    public void aumentarChanceDeChutar(int aumento){
+        this.chanceDeChutar += aumento;
+    }
+
+    public void zerarChanceDeChutar(){
+        this.chanceDeChutar = 0;
+    }
 
     public String enfrentar(Adversario adversario) {
         System.out.println(this.nome + " está com a bola enfrentando " + adversario.getNome() + "!");
         // jeh! se o jogador tem boa finalização,  PODE tentar afundar a rede, senão pode escolher tocar
-        boolean tentaFinalizar = this.finalizacao + dado() > 13;
+        boolean tentaFinalizar = (this.finalizacao + this.chanceDeChutar) > (10 + adversario.dado());
 
         if (tentaFinalizar) {
-            int ataque = this.finalizacao + dado();
+            int ataque = this.finalizacao + chanceDeChutar + dado();
             int defesa = adversario.getDefesa() + adversario.dado();
             System.out.println(this.nome + " tenta finalizar ao gol!");
-            System.out.println("Força do chute: " + finalizacao + " | Defesa do adversário: " + defesa);
+            System.out.println("Força do chute: " + ataque + " | Defesa do adversário: " + defesa);
+
+            this.zerarChanceDeChutar();
 
             if (ataque > defesa) {
-                if (dado() > 7) {
+                int margemDeVitoria = ataque - defesa;
+
+                if(this instanceof Atacante && margemDeVitoria > 2){
+                    this.nivel +=1;
+                    return "Gol de " + this.nome + "! Um chute preciso no canto!";
+                }
+
+                if (this instanceof MeioCampo && margemDeVitoria > 4) {
                     this.nivel += 1;
-                    return("Gol de " + this.nome + "!");
+                    return "Gol de " + this.nome + "! Um belo chute de média distância!";
                 }
-                else if(dado() > 3 && dado() <= 7){
-                    return("Na trave!");
+
+                // DEFENSOR: Precisa de uma grande vantagem (sorte), pois não é sua função.
+                if (this instanceof Defensor && margemDeVitoria > 6) {
+                    this.nivel += 1;
+                    return "GOL INACREDITÁVEL DE " + this.nome + "! Pegou todo mundo de surpresa!";
                 }
-                else return("Chutou para fora!");
+
+                // Se venceu a disputa, mas não o suficiente para a sua posição marcar, a bola vai na trave.
+                return "Na trave! O goleiro nem viu a cor da bola!";
+            }else{
+                return "Chutou para fora! A defesa pressionou bem,";
             }
         }
 
