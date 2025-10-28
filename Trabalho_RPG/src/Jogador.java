@@ -33,6 +33,19 @@ public abstract class Jogador {
     public double getCondicionamento() {
         return condicionamento;
     }
+    public int getFinalizacao() {
+        return finalizacao;
+    }
+    public int getDefesa() {
+        return defesa;
+    }
+    public int getNivel() {
+        return nivel;
+    }
+    public Inventario getHabilidades() {
+        return habilidades;
+    }
+
 
     public void aumentarChanceDeChutar(int aumento){
         this.chanceDeChutar += aumento;
@@ -42,14 +55,14 @@ public abstract class Jogador {
         this.chanceDeChutar = 0;
     }
 
-    public String enfrentar(Adversario adversario) {
-        System.out.println(this.nome + " está com a bola enfrentando " + adversario.getNome() + "!");
+    public String enfrentar(Jogador defensor) {
+        System.out.println(this.nome + " está com a bola enfrentando " + defensor.getNome() + "!");
         // jeh! se o jogador tem boa finalização,  PODE tentar afundar a rede, senão pode escolher tocar
-        boolean tentaFinalizar = (this.finalizacao + this.chanceDeChutar) > (10 + adversario.dado());
+        boolean tentaFinalizar = (this.finalizacao + this.chanceDeChutar) > (10 + defensor.dado());
 
         if (tentaFinalizar) {
             int ataque = this.finalizacao + chanceDeChutar + dado();
-            int defesa = adversario.getDefesa() + adversario.dado();
+            int defesa = defensor.getDefesa() + defensor.dado();
             System.out.println(this.nome + " tenta finalizar ao gol!");
             System.out.println("Força do chute: " + ataque + " | Defesa do adversário: " + defesa);
 
@@ -83,30 +96,7 @@ public abstract class Jogador {
 
         return "";
     }
-    public String serEnfrentado(Adversario adversario) {
-        System.out.println(this.nome + " está sendo atacado por " + adversario.getNome() + "!");
 
-        boolean tentaFinalizar = adversario.getFinalizacao() + adversario.dado() > 13;
-
-        if (tentaFinalizar) {
-            int ataque = adversario.getFinalizacao() + adversario.dado();
-            int defesa = this.defesa + dado();
-
-            System.out.println(adversario.getNome() + " tenta finalizar!");
-            System.out.println("Força do chute: " + ataque + " | Defesa de " + this.nome + ": " + defesa);
-
-            if (ataque > defesa) {
-                int resultado = dado();
-                if (resultado > 7) {
-                    return "Gol de " + adversario.getNome() + "!";
-                } else if (resultado > 3) {
-                    return "A bola bate na trave!";
-                }
-                else return adversario.getNome() + " chutou pra fora!";
-            }
-        }
-        return "";
-    }
     //BASE METODO TOCAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     public String tocar(Jogador companheiro) {

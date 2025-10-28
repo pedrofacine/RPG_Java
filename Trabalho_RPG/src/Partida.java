@@ -61,13 +61,12 @@ public class Partida extends Jogo{
                         break;
                 }
             }else if(this.jogadorComBola == this.c1 || this.jogadorComBola == this.c2) {
-                System.out.println("O seu companheiro " + this.jogadorComBola.nome + " está com a bola.");
+                System.out.println("O seu companheiro " + this.jogadorComBola.getNome() + " está com a bola.");
                 turnoControladoPorIA();
             }else{
                 System.out.println("A bola está com o adversário.");
-                turnoControladoPorIA();
+                turnoAdversario();
             }
-
 
             // Lógica simples para terminar o jogo
             if (turno >= 8) {
@@ -110,7 +109,7 @@ public class Partida extends Jogo{
 
         if (Math.random() > 0.3) { // 70% de chance de encontrar um adversário
             this.adversarioAtual = new Adversario("Zagueiro Genérico");
-            System.out.println("Um adversário (" + adversarioAtual.getNome() + ") aparece na sua frente!");
+            System.out.println("Um adversário (" + adversarioAtual.getNome() + ") aparece!");
             System.out.println(this.adversarioAtual.toString());
 
             // Enfrentar o adversário e obter o resultado (pode ser um gol)
@@ -119,20 +118,21 @@ public class Partida extends Jogo{
             if (!resultado.isEmpty()) {
                 System.out.println("\n*** " + resultado + " ***\n");
                 if (resultado.startsWith("Gol")) {
-                    System.out.println("VOCÊ MARCOU!");
+                    System.out.println(this.jogadorComBola.getNome() + " MARCOU!");
                     this.golsA ++;
+                    this.jogadorComBola = adversarioAtual;
                 }
             } else {
-                System.out.println("Você driblou o adversário e se aproximou do gol!");
+                System.out.println(this.jogadorComBola.getNome() + " driblou o adversário e se aproximou do gol!");
                 this.jogadorComBola.aumentarChanceDeChutar(5);
             }
 
         }else if(chancePerderBola()){
-            System.out.println("Voce se atrapalhou e perdeu a bola.");
+            System.out.println(this.jogadorComBola.getNome() + " se atrapalhou e perdeu a bola.");
             this.jogadorComBola.zerarChanceDeChutar();
             // logica de sofrer ataque
         }else {
-            System.out.println("Você correu por um espaço vazio e ganhou terreno!");
+            System.out.println(this.jogadorComBola.getNome() + " correu por um espaço vazio e ganhou terreno!");
             this.jogadorComBola.aumentarChanceDeChutar(3);
         }
     }
@@ -205,6 +205,37 @@ public class Partida extends Jogo{
                 System.out.println("Ele vê uma brecha e decide avançar!");
                 avancarComABola();
             }
+        }
+    }
+
+    public Jogador escolherDefensor(){
+        int escolha = random.nextInt(3);
+        return switch (escolha) {
+            case 0 -> this.player;
+            case 1 -> this.c1;
+            default -> this.c2;
+        };
+    }
+
+    public void turnoAdversario() {
+        try { Thread.sleep(2000); } catch (InterruptedException e) {}
+
+        System.out.println(this.jogadorComBola.getNome() + " avança com a bola para o ataque!");
+
+        Jogador defensorEscolhido = escolherDefensor();
+        System.out.println("Ele vai pra cima de " + defensorEscolhido.nome);
+
+        String resultadoAtaque = this.jogadorComBola.enfrentar(defensorEscolhido);
+        if(!resultadoAtaque.isEmpty()){
+            System.out.println("\n***" + resultadoAtaque + "***\n");
+            if(resultadoAtaque.startsWith("Gol")){
+                System.out.println("GOL DO ADVERSARIO");
+                this.golsC++;
+                this.jogadorComBola = this.player;
+            }
+        } else{
+            System.out.println(defensorEscolhido.getNome() + " fez um belo desarme!");
+            this.jogadorComBola = defensorEscolhido;
         }
     }
 
