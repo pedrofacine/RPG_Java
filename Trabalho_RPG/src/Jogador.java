@@ -28,22 +28,22 @@ public abstract class Jogador {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
     public double getCondicionamento() {
-        return condicionamento;
+        return this.condicionamento;
     }
     public int getFinalizacao() {
-        return finalizacao;
+        return this.finalizacao;
     }
     public int getDefesa() {
-        return defesa;
+        return this.defesa;
     }
     public int getNivel() {
-        return nivel;
+        return this.nivel;
     }
     public Inventario getHabilidades() {
-        return habilidades;
+        return this.habilidades;
     }
 
 
@@ -57,8 +57,13 @@ public abstract class Jogador {
 
     public String enfrentar(Jogador defensor) {
         System.out.println(this.nome + " está com a bola enfrentando " + defensor.getNome() + "!");
-        // jeh! se o jogador tem boa finalização,  PODE tentar afundar a rede, senão pode escolher tocar
-        boolean tentaFinalizar = (this.finalizacao + this.chanceDeChutar) > (10 + defensor.dado());
+        boolean tentaFinalizar = false;
+
+        if(this instanceof Adversario){
+            tentaFinalizar = this.dado() < this.finalizacao;
+        }else{
+            tentaFinalizar = (this.finalizacao + this.chanceDeChutar) > (10 + defensor.dado());
+        }
 
         if (tentaFinalizar) {
             int ataque = this.finalizacao + chanceDeChutar + dado();
@@ -92,21 +97,29 @@ public abstract class Jogador {
             }else{
                 return "Chutou para fora! A defesa pressionou bem,";
             }
-        }
+        }else{
+            System.out.println(this.nome + " tenta passar pelo defensor...");
+            int poderOfensivo = this.nivel + this.finalizacao + this.dado();
+            int poderDefensivo = defensor.getNivel() + defensor.getDefesa() + defensor.dado();
 
-        return "";
+            if (poderOfensivo > poderDefensivo){
+                return "Drible bem-sucedido";
+            }else{
+                return "";
+            }
+        }
     }
 
     //BASE METODO TOCAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    public String tocar(Jogador companheiro) {
+    public String tocar(Jogador companheiro, Jogador adversario) {
         System.out.println(this.nome + " olha para " + companheiro.getNome() + " e tenta fazer o passe...");
 
         // Chance base de sucesso aumenta com condicionamento e nível
-        int chance = (int) (this.condicionamento * 10) + this.nivel + dado();
+        double chance =  this.condicionamento + this.nivel + dado();
 
         // Chance de erro aleatória do adversário (simula interceptação)
-        int defesaAdversaria = (int) (Math.random() * 15) + 1;
+        int defesaAdversaria = (adversario.getDefesa()) + adversario.dado() + adversario.getNivel();
 
         System.out.println("Precisão do passe: " + chance + " | Pressão adversária: " + defesaAdversaria);
 

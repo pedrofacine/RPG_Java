@@ -2,7 +2,6 @@ public class Defensor extends Jogador{
 
     public Defensor(String nome){
         super(nome, 6.0, 3, 8, 5);
-        this.habilidades = new Inventario();
 
         this.habilidades.addHabilidade(
                 new Habilidade(

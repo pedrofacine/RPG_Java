@@ -2,8 +2,8 @@
 
 public class Adversario extends Jogador {
     public Adversario(String nome){
-        super(nome, 7.0, 7, 7, 5);
-        this.habilidades.addHabilidade(
+        super(nome, 7.0, 9, 8, 6);
+        /*this.habilidades.addHabilidade(
                 new Habilidade(
                         "Bote",
                         "Um bote preciso e na bola",
@@ -25,7 +25,7 @@ public class Adversario extends Jogador {
                         "Passe certo",
                         1
                 )
-        );
+        );*/
     }
 
     public String getNome(){

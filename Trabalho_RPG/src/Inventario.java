@@ -12,7 +12,6 @@ public class Inventario implements Cloneable{
     public void addHabilidade(Habilidade h){
         for(Habilidade habilidade : this.habilidades){
             if(habilidade.equals(h)){
-                this.habilidades.add(habilidade);
                 habilidade.addQtd(h.getQtd());
                 return;
             }
@@ -21,16 +20,25 @@ public class Inventario implements Cloneable{
     }
 
     public void removeHabilidade(Habilidade h, int qtd){
-        for(int i = 0; i < qtd; i++){
+        for(int i = 0; i < this.habilidades.size(); i++){
             Habilidade habilidade = this.habilidades.get(i);
             if(habilidade.getNome().equals(h.getNome())){
                 h.rmQtd(qtd);
-                if(h.getQtd() == 0){
+                if(h.getQtd() <= 0){
                     this.habilidades.remove(i);
                 }
                 return;
             }
         }
+    }
+
+    public Habilidade getHabilidadePorNome(String nome){
+        for(Habilidade h : this.habilidades){
+            if(h.getNome().equalsIgnoreCase(nome)){
+                return h;
+            }
+        }
+        return null;
     }
 
     @Override

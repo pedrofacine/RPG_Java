@@ -48,7 +48,7 @@ public class Partida extends Jogo{
                         avancarComABola();
                         break;
                     case "2":
-                        //usarHabilidade();
+                        usarHabilidade();
                         break;
                     case "3":
                         //tentarRecuar();
@@ -69,7 +69,7 @@ public class Partida extends Jogo{
             }
 
             // Lógica simples para terminar o jogo
-            if (turno >= 8) {
+            if (turno >= 15) {
                 System.out.println("\n--- FIM DE JOGO ---");
                 System.out.println("O juiz apita o final da partida!\nResultado: " + golsA + "x" + golsC);
                 partidaEmAndamento = false;
@@ -108,7 +108,7 @@ public class Partida extends Jogo{
         System.out.println(this.jogadorComBola.getNome() + " avança pelo campo...");
 
         if (Math.random() > 0.3) { // 70% de chance de encontrar um adversário
-            this.adversarioAtual = new Adversario("Zagueiro Genérico");
+            this.adversarioAtual = new Adversario("Fernandinho");
             System.out.println("Um adversário (" + adversarioAtual.getNome() + ") aparece!");
             System.out.println(this.adversarioAtual.toString());
 
@@ -121,6 +121,12 @@ public class Partida extends Jogo{
                     System.out.println(this.jogadorComBola.getNome() + " MARCOU!");
                     this.golsA ++;
                     this.jogadorComBola = adversarioAtual;
+                }else if(resultado.startsWith("Drible")){
+                    this.jogadorComBola.aumentarChanceDeChutar(5);
+                }
+                else{
+                    System.out.println("A defesa adversária recupera a posse de bola.");
+                    this.jogadorComBola = adversarioAtual;
                 }
             } else {
                 System.out.println(this.jogadorComBola.getNome() + " driblou o adversário e se aproximou do gol!");
@@ -130,7 +136,7 @@ public class Partida extends Jogo{
         }else if(chancePerderBola()){
             System.out.println(this.jogadorComBola.getNome() + " se atrapalhou e perdeu a bola.");
             this.jogadorComBola.zerarChanceDeChutar();
-            // logica de sofrer ataque
+            this.jogadorComBola = this.adversarioAtual;
         }else {
             System.out.println(this.jogadorComBola.getNome() + " correu por um espaço vazio e ganhou terreno!");
             this.jogadorComBola.aumentarChanceDeChutar(3);
@@ -161,7 +167,7 @@ public class Partida extends Jogo{
     }
 
     private void executarPasse(Jogador passador, Jogador receptor) {
-        String resultadoPasse = passador.tocar(receptor);
+        String resultadoPasse = passador.tocar(receptor, new Adversario("Halland") );
         System.out.println(resultadoPasse);
 
         if (resultadoPasse.contains("interceptado")) {
@@ -226,27 +232,34 @@ public class Partida extends Jogo{
         System.out.println("Ele vai pra cima de " + defensorEscolhido.nome);
 
         String resultadoAtaque = this.jogadorComBola.enfrentar(defensorEscolhido);
-        if(!resultadoAtaque.isEmpty()){
-            System.out.println("\n***" + resultadoAtaque + "***\n");
-            if(resultadoAtaque.startsWith("Gol")){
-                System.out.println("GOL DO ADVERSARIO");
-                this.golsC++;
-                this.jogadorComBola = this.player;
-            }
-        } else{
+        if (resultadoAtaque.isEmpty()) {
+            // RESULTADO VAZIO = DESARME!
             System.out.println(defensorEscolhido.getNome() + " fez um belo desarme!");
             this.jogadorComBola = defensorEscolhido;
+        } else {
+            // QUALQUER OUTRO RESULTADO = TENTATIVA DE CHUTE OU DRIBLE BEM-SUCEDIDO
+            System.out.println("\n*** " + resultadoAtaque + " ***\n");
+            if (resultadoAtaque.startsWith("Gol")) {
+                System.out.println("GOL DO ADVERSÁRIO!");
+                this.golsC++;
+                this.jogadorComBola = this.player;
+            } else if (resultadoAtaque.startsWith("Drible")) {
+                System.out.println("O adversário continua com a posse, se aproximando da área!");
+            } else {
+                System.out.println("A posse é retomada!");
+                this.jogadorComBola = escolherDefensor();
+            }
         }
     }
 
-    // ALGO COM POTENCIAL DE COZINHAMENTO JEH
-/*
-    // Método para usar uma das habilidades do jogador.
     private void usarHabilidade() {
-        System.out.println("\n--- SUAS HABILIDADES ---");
-        System.out.println(player.getHabilidades());
+        if (this.jogadorComBola != this.player){
+            System.out.println("Apenas o jogador pode usar habilidades do menu");
+        }
 
-        // A lógica do jogo não define o efeito real, então apenas simula o uso.
+        System.out.println("\n--- SUAS HABILIDADES ---");
+        System.out.println(this.player.getHabilidades());
+
         System.out.print("Digite o NOME da habilidade que deseja USAR (ou ENTER para cancelar): ");
         String nomeHabilidade = Teclado.getUmString().trim();
 
@@ -255,11 +268,39 @@ public class Partida extends Jogo{
             return;
         }
 
-        // Simulação de uso (o Inventario não tem um método getHabilidade(String nome))
-        System.out.println(player.getNome() + " usa a habilidade **" + nomeHabilidade + "**!");
-        System.out.println("Você sente um aumento de poder! (Efeito de jogo não implementado)");
-        // Lógica para remover 1 da quantidade de habilidade deveria ser aqui.
+        Habilidade habilidadeEscolhida = this.player.getHabilidades().getHabilidadePorNome(nomeHabilidade);
+        if (habilidadeEscolhida == null) {
+            System.out.println("Habilidade não encontrada!");
+            return;
+        }
+        if(habilidadeEscolhida.getQtd() <= 0){
+            System.out.println("Você não tem mais unidades de " + habilidadeEscolhida.getNome());
+        }
+
+        System.out.println(this.player.getNome() + " usa " + habilidadeEscolhida.getNome() + "!");
+
+        switch (habilidadeEscolhida.getNome().toLowerCase()){
+            case "superkick":
+                System.out.println("Seu próximo chute terá uma força extra!");
+                this.player.aumentarChanceDeChutar(10);
+                this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
+                break;
+            case "passe teleguiado":
+                System.out.println("Seu proximo passe terá precisão máxima!");
+                this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
+                // implementar chance de passe
+                break;
+            case "bote":
+                System.out.println("Seu proximo desarme será preciso!");
+                this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
+                // implementar desarme
+                break;
+        }
     }
+
+    // ALGO COM POTENCIAL DE COZINHAMENTO JEH
+/*
+
 
     // Método para recuar e analisar o jogo (simula defesa ou 'cura')
     private void tentarRecuar() {
