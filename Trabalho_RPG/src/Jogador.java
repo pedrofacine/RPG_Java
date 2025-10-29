@@ -8,6 +8,7 @@ public abstract class Jogador {
     protected int nivel;
     protected Inventario habilidades;
     protected int chanceDeChutar;
+    protected int chanceDePasse;
 
     public Jogador(String nome, Double condicionamento, int finalizacao, int defesa, int nivel){
         this.nome = nome;
@@ -18,6 +19,7 @@ public abstract class Jogador {
         this.habilidades = new Inventario();
 
         this.chanceDeChutar = 0;
+        this.chanceDePasse = 0;
         this.habilidades.addHabilidade(
                 new Habilidade("drible",
                         "Passa pelo adversário",
@@ -50,10 +52,13 @@ public abstract class Jogador {
     public void aumentarChanceDeChutar(int aumento){
         this.chanceDeChutar += aumento;
     }
+    public void aumentarChanceDePasse(int aumento) { this.chanceDePasse += aumento;}
+    public void aumentarDefesa(int aumento){ this.chanceDePasse += aumento; }
 
     public void zerarChanceDeChutar(){
         this.chanceDeChutar = 0;
     }
+    public void zerarChanceDePasse() { this.chanceDePasse = 0; }
 
     public String enfrentar(Jogador defensor) {
         System.out.println(this.nome + " está com a bola enfrentando " + defensor.getNome() + "!");
@@ -116,7 +121,7 @@ public abstract class Jogador {
         System.out.println(this.nome + " olha para " + companheiro.getNome() + " e tenta fazer o passe...");
 
         // Chance base de sucesso aumenta com condicionamento e nível
-        double chance =  this.condicionamento + this.nivel + dado();
+        double chance =  this.condicionamento + this.chanceDePasse + this.nivel + dado();
 
         // Chance de erro aleatória do adversário (simula interceptação)
         int defesaAdversaria = (adversario.getDefesa()) + adversario.dado() + adversario.getNivel();
@@ -135,6 +140,19 @@ public abstract class Jogador {
             return "O passe foi meio arriscado, mas " + companheiro.getNome() + " conseguiu recuperar!";
         } else {
             return "Passe interceptado! O adversário rouba a bola!";
+        }
+    }
+
+    public boolean recuar(Jogador adversario){
+        System.out.println(this.getNome() + " tenta recuar e analisar o jogo...");
+        double pressaoAdversario = adversario.getCondicionamento() + adversario.getNivel() + adversario.dado();
+        double chanceDeRecuo = this.condicionamento + this.getNivel() + this.dado();
+
+        if(chanceDeRecuo > pressaoAdversario){
+            this.aumentarChanceDePasse(2);
+            return true;
+        }else{
+            return false;
         }
     }
 

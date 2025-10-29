@@ -10,6 +10,7 @@ public class Partida extends Jogo{
     private String nomeTimeAdversario;
     private Adversario adversarioAtual;
     private Random random;
+    private int turno;
 
     public Partida(Jogador player, Jogador c1, Jogador c2, String nomeTimeAdversario) {
         golsA = 0;
@@ -20,6 +21,7 @@ public class Partida extends Jogo{
         this.jogadorComBola = player;
         this.nomeTimeAdversario = nomeTimeAdversario;
         random = new Random();
+        this.turno = 0;
     }
 
     public boolean iniciar(String nomeTimeAdversario) {
@@ -28,7 +30,7 @@ public class Partida extends Jogo{
 
         // Loop principal do jogo
         boolean partidaEmAndamento = true;
-        int turno = 1;
+        this.turno = 1;
 
         while (partidaEmAndamento) {
             System.out.println("\n--- TURNO " + turno + " ---");
@@ -51,7 +53,7 @@ public class Partida extends Jogo{
                         usarHabilidade();
                         break;
                     case "3":
-                        //tentarRecuar();
+                        tentarRecuar();
                         break;
                     case "4":
                         decidirPasse();
@@ -120,6 +122,7 @@ public class Partida extends Jogo{
                 if (resultado.startsWith("Gol")) {
                     System.out.println(this.jogadorComBola.getNome() + " MARCOU!");
                     this.golsA ++;
+                    if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");
                     this.jogadorComBola = adversarioAtual;
                 }else if(resultado.startsWith("Drible")){
                     this.jogadorComBola.aumentarChanceDeChutar(5);
@@ -175,6 +178,7 @@ public class Partida extends Jogo{
             this.jogadorComBola = new Adversario("Ladrão de Bolas");
         } else {
             System.out.println(receptor.getNome() + " agora está com a bola.");
+            this.jogadorComBola.zerarChanceDePasse();
             this.jogadorComBola = receptor; // A posse é transferida corretamente
         }
     }
@@ -242,6 +246,7 @@ public class Partida extends Jogo{
             if (resultadoAtaque.startsWith("Gol")) {
                 System.out.println("GOL DO ADVERSÁRIO!");
                 this.golsC++;
+                if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");
                 this.jogadorComBola = this.player;
             } else if (resultadoAtaque.startsWith("Drible")) {
                 System.out.println("O adversário continua com a posse, se aproximando da área!");
@@ -287,32 +292,28 @@ public class Partida extends Jogo{
                 break;
             case "passe teleguiado":
                 System.out.println("Seu proximo passe terá precisão máxima!");
+                this.player.aumentarChanceDePasse(10);
                 this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
-                // implementar chance de passe
                 break;
             case "bote":
                 System.out.println("Seu proximo desarme será preciso!");
+                this.player.aumentarDefesa(10);
                 this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
-                // implementar desarme
                 break;
         }
     }
 
-    // ALGO COM POTENCIAL DE COZINHAMENTO JEH
-/*
-
-
-    // Método para recuar e analisar o jogo (simula defesa ou 'cura')
     private void tentarRecuar() {
-        System.out.println(player.getNome() + " recua a bola para tentar analisar o jogo...");
-        if (player.dado() > 5) { // 50% de chance de sucesso
+        System.out.println(this.jogadorComBola.getNome() + " recua a bola para tentar analisar o jogo...");
+        this.adversarioAtual = new Adversario("Neto");
+        boolean resultadoRecuo = this.jogadorComBola.recuar(this.adversarioAtual);
+        if (resultadoRecuo) { // 50% de chance de sucesso
             System.out.println("Recuo bem-sucedido! Você conseguiu ganhar mais fôlego e reanalisar a jogada.");
             // Poderia aumentar condicionamento ou reduzir o risco de interceptação.
         } else {
-            System.out.println("O adversário pressiona! Você tem que se livrar da bola rapidamente!");
+            System.out.println(this.jogadorComBola.getNome() + " se atrapalha e perde a bola.");
+            this.jogadorComBola = adversarioAtual;
         }
     }
 
-
-* */
 }
