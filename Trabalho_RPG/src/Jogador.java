@@ -98,7 +98,7 @@ public abstract class Jogador {
                 }
 
                 // Se venceu a disputa, mas não o suficiente para a sua posição marcar, a bola vai na trave.
-                return "Na trave! O goleiro nem viu a cor da bola!";
+                return "Na trave!";
             }else{
                 return "Chutou para fora! A defesa pressionou bem,";
             }
@@ -114,8 +114,6 @@ public abstract class Jogador {
             }
         }
     }
-
-    //BASE METODO TOCAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     public String tocar(Jogador companheiro, Jogador adversario) {
         System.out.println(this.nome + " olha para " + companheiro.getNome() + " e tenta fazer o passe...");

@@ -108,9 +108,9 @@ public class Partida extends Jogo{
 
     private void avancarComABola() {
         System.out.println(this.jogadorComBola.getNome() + " avança pelo campo...");
+        this.adversarioAtual = new Adversario("Fernandinho");
 
         if (Math.random() > 0.3) { // 70% de chance de encontrar um adversário
-            this.adversarioAtual = new Adversario("Fernandinho");
             System.out.println("Um adversário (" + adversarioAtual.getNome() + ") aparece!");
             System.out.println(this.adversarioAtual.toString());
 
@@ -307,9 +307,8 @@ public class Partida extends Jogo{
         System.out.println(this.jogadorComBola.getNome() + " recua a bola para tentar analisar o jogo...");
         this.adversarioAtual = new Adversario("Neto");
         boolean resultadoRecuo = this.jogadorComBola.recuar(this.adversarioAtual);
-        if (resultadoRecuo) { // 50% de chance de sucesso
-            System.out.println("Recuo bem-sucedido! Você conseguiu ganhar mais fôlego e reanalisar a jogada.");
-            // Poderia aumentar condicionamento ou reduzir o risco de interceptação.
+        if (resultadoRecuo) {
+            System.out.println("Recuo bem-sucedido! Sua precisão de passe foi aumentada.");
         } else {
             System.out.println(this.jogadorComBola.getNome() + " se atrapalha e perde a bola.");
             this.jogadorComBola = adversarioAtual;
