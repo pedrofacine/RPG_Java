@@ -11,7 +11,7 @@ public abstract class Jogador implements Cloneable {
     protected int chanceDePasse;
     private final int desgaste = 1;
 
-    public Jogador(String nome, Double condicionamento, int finalizacao, int defesa, int nivel){
+    public Jogador(String nome, Double condicionamento, int finalizacao, int defesa){
         this.nome = nome;
         this.condicionamento = condicionamento;
         this.finalizacao = finalizacao;

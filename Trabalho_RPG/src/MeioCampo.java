@@ -3,7 +3,7 @@
 public class MeioCampo extends Jogador {
 
     public MeioCampo(String nome){
-        super(nome, 7.0, 6, 5, 5);
+        super(nome, 7.0, 6, 5);
         this.habilidades.addHabilidade(
                 new Habilidade("passe teleguiado",
                         "Um passe com enorme precisão",

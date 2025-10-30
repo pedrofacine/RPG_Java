@@ -3,7 +3,7 @@
 public class Atacante extends Jogador {
 
     public Atacante(String nome){
-        super(nome, 8.0, 8, 3, 5);
+        super(nome, 8.0, 8, 3);
 
         this.habilidades.addHabilidade(
                 new Habilidade(

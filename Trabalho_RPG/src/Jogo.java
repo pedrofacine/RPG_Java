@@ -46,7 +46,7 @@ public class Jogo{
                 System.out.println("\n\nDigite o nome do seu jogador:\n");
                 nome = Teclado.getUmString().trim();
                 if (nome.isEmpty()) {
-                    System.out.println("O nome não pode ser vazio!");
+                    imprimirComAnimacao("O nome não pode ser vazio!");
                 }
             } while (nome.isEmpty());
 
@@ -56,7 +56,7 @@ public class Jogo{
                 pos = Teclado.getUmString().toLowerCase().trim();
 
                 if (!pos.equals("meiocampo") && !pos.equals("defensor") && !pos.equals("atacante")) {
-                    System.out.println("Posição inválida! Tente novamente.");
+                    imprimirComAnimacao("Posição inválida! Tente novamente.");
                     pos = ""; // força repetir o loop
                 }
             } while (pos.isEmpty());
@@ -77,8 +77,8 @@ public class Jogo{
                 this.c2 = new MeioCampo("Neymar");
             }
 
-            System.out.println("\nJogador criado com sucesso:\n" + player);
-            System.out.println("\nSeus companheiros de time são:\n" + c1 + "\n" + c2);
+            imprimirComAnimacao("\nJogador criado com sucesso:\n" + player);
+            imprimirComAnimacao("\nSeus companheiros de time são:\n" + c1 + "\n" + c2);
             return;
         }
     }
@@ -89,34 +89,15 @@ public class Jogo{
 
     public void removerEquipe(String equipe){
         this.equipesAdversarias.remove(equipe);
-        System.out.println(equipe + " foi eliminada da copa!\n");
+        imprimirComAnimacao(equipe + " foi eliminada da copa!\n");
     }
 
-    public boolean boasVindas(){
-        System.out.println("\n"+c1.getNome()+" - Bem vindo a nossa equipe, " + player.getNome() + "!\n" +
-                "Conto com você para alcançarmos nosso objetivo, sermos campeões da Copa Maligna!\n");
-        try { Thread.sleep(2000); } catch (InterruptedException e) {}
-        System.out.println(c2.getNome() + " - Espero que se dedique 100%. Disputaremos a taça com outras 7 equipes, o campeonato " +
-                "começa já em quartas de final.");
-        this.proximoAdversario = getRandomTeam();
-        System.out.println("\n" + c1.getNome() + " - nosso primeiro jogo é contra: " + this.proximoAdversario + "\nEstá preparado?\nAperte enter para começar!");
-        Teclado.getUmString();
-        Partida p1 = new Partida(
-                this.player,
-                this.c1,
-                this.c2,
-                this.proximoAdversario
-        );
-        boolean r = p1.iniciar();
-        if(r) removerEquipe(this.proximoAdversario);
-        return r;
-    }
 
     private void jogarFaseDoCampeonato(String nomeDaFase) {
-        System.out.println("\n--- " + nomeDaFase.toUpperCase() + " ---");
+        imprimirComAnimacao("\n--- " + nomeDaFase.toUpperCase() + " ---");
         String adversarioDaVez = getRandomTeam();
 
-        System.out.println(this.c2.getNome() + " - nosso próximo adversário é o " + adversarioDaVez + ". Vamos com tudo!");
+        imprimirComAnimacao(this.c2.getNome() + " - nosso próximo adversário é o " + adversarioDaVez + ". Vamos com tudo!");
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         Partida partida = new Partida(this.player, this.c1, this.c2, adversarioDaVez);
@@ -131,30 +112,30 @@ public class Jogo{
 
     public void campeonato() {
         // Boas-vindas iniciais
-        System.out.println("\n" + c1.getNome() + " - Bem vindo a nossa equipe, " + player.getNome() + "!");
-        System.out.println("Conto com você para alcançarmos nosso objetivo, sermos campeões da Copa Maligna!\n");
+        imprimirComAnimacao("\n" + c1.getNome() + " - Bem vindo a nossa equipe, " + player.getNome() + "!");
+        imprimirComAnimacao("Conto com você para alcançarmos nosso objetivo, sermos campeões da Copa Maligna!\n");
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
-        System.out.println(c2.getNome() + " - Espero que se dedique 100%. Disputaremos a taça com outras 7 equipes, o campeonato começa já em quartas de final.");
+        imprimirComAnimacao(c2.getNome() + " - Espero que se dedique 100%. Disputaremos a taça com outras 7 equipes, o campeonato começa já em quartas de final.");
 
         jogarFaseDoCampeonato("Quartas de Final");
-        System.out.println("\n" + this.c1.getNome() + " - Boa! Vencemos a primeira, seguimos focados rumo ao título!");
+        imprimirComAnimacao("\n" + this.c1.getNome() + " - Boa! Vencemos a primeira, seguimos focados rumo ao título!");
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         jogarFaseDoCampeonato("Semifinal");
-        System.out.println("\n" + this.c1.getNome() + " - VAMOOOOS! Estamos na final, um passo mais perto da glória!");
+        imprimirComAnimacao("\n" + this.c1.getNome() + " - VAMOOOOS! Estamos na final, um passo mais perto da glória!");
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         jogarFaseDoCampeonato("Final");
 
-        System.out.println("\n" + this.c1.getNome() + " - CAMPEÕES! CAMPEÕES! É NOSSO! BORA COMEMORAR, BORA PRO BAR!");
+        imprimirComAnimacao("\n" + this.c1.getNome() + " - CAMPEÕES! CAMPEÕES! É NOSSO! BORA COMEMORAR, BORA PRO BAR!");
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
-        System.out.println(this.c2.getNome() + " - Manda descer gelo!!, " + this.player.getNome() + "!");
-        System.out.println("\n*** FIM DE JOGO - VOCÊ VENCEU A COPA MALIGNA! ***");
+        imprimirComAnimacao(this.c2.getNome() + " - Manda descer gelo!!, " + this.player.getNome() + "!");
+        imprimirComAnimacao("\n*** FIM DE JOGO - VOCÊ VENCEU A COPA MALIGNA! ***");
         printTaca();
     }
     public void eliminacao(){
-        System.out.println("Sua equipe foi eliminada da copa. Boa sorte na proxima!");
-        System.out.println(this.c2.getNome() + " pipoqueiro...");
+        imprimirComAnimacao("Sua equipe foi eliminada da copa. Boa sorte na proxima!");
+        imprimirComAnimacao(this.c2.getNome() + " pipoqueiro...");
         System.exit(0);
     }
 
@@ -262,4 +243,23 @@ public class Jogo{
         jogo.criarPersonagens();
         jogo.campeonato();
     }
+
+    private void imprimirComAnimacao(String texto) {
+        for (char c : texto.toCharArray()) {
+            System.out.print(c);
+            System.out.flush();
+
+            try {
+                if (".!?".indexOf(c) >= 0) {
+                    Thread.sleep(200); // pausa leve no fim da frase
+                } else {
+                    Thread.sleep(2); // super rápido entre letras
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println();
+    }
+
 }

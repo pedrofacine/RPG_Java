@@ -2,7 +2,7 @@
 
 public class Adversario extends Jogador {
     public Adversario(String nome){
-        super(nome, 7.0, 9, 8, 6);
+        super(nome, 7.0, 9, 8);
     }
 
     public String getNome(){

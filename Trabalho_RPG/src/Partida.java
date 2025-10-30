@@ -1,4 +1,6 @@
 import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Partida implements Cloneable{
@@ -9,6 +11,7 @@ public class Partida implements Cloneable{
     private Jogador c2;
     private Jogador jogadorComBola;
     private String nomeTimeAdversario;
+    private List<Adversario> adversarios;
     private Adversario adversarioAtual;
     private Random random;
     private int turno;
@@ -23,7 +26,15 @@ public class Partida implements Cloneable{
         this.nomeTimeAdversario = nomeTimeAdversario;
         random = new Random();
         this.turno = 0;
-        this.adversarioAtual = new Adversario("Fernandinho");
+        this.adversarios = new ArrayList<Adversario>();
+        this.adversarios.add(new Adversario("Fernandinho"));
+        this.adversarios.add(new Adversario("Neto"));
+        this.adversarios.add(new Adversario("Cucurella"));
+        this.adversarioAtual = null;
+    }
+
+    public Adversario getAdversario(){
+        return adversarios.get(random.nextInt(adversarios.size()));
     }
 
     public boolean iniciar() {
@@ -98,6 +109,7 @@ public class Partida implements Cloneable{
     }
 
     private boolean desempate(){
+        this.adversarioAtual = getAdversario();
         System.out.println("A partida terminou empatada. O desempate será em X1s!");
         System.out.println(this.player.getNome() + " vai começar contra " + this.adversarioAtual.getNome());
         boolean r = this.player.x1(adversarioAtual);
@@ -126,6 +138,7 @@ public class Partida implements Cloneable{
 
     private void avancarComABola() {
         System.out.println(this.jogadorComBola.getNome() + " avança pelo campo...");
+        this.adversarioAtual = getAdversario();
 
         if (Math.random() > 0.3) { // 70% de chance de encontrar um adversário
             System.out.println("Um adversário (" + adversarioAtual.getNome() + ") aparece!");
@@ -166,6 +179,7 @@ public class Partida implements Cloneable{
 
 
     private void decidirPasse() {
+        this.adversarioAtual = getAdversario();
         System.out.println("\nPara quem você deseja tocar a bola?");
         System.out.println("1. " + c1.getNome() + " (" + c1.getClass().getSimpleName() + ")");
         System.out.println("2. " + c2.getNome() + " (" + c2.getClass().getSimpleName() + ")");
@@ -179,7 +193,7 @@ public class Partida implements Cloneable{
             companheiro = c2;
         } else {
             System.out.println("Escolha inválida! A posse de bola foi perdida.");
-            this.jogadorComBola = new Adversario("Confuso"); // Perde a posse
+            this.jogadorComBola = this.adversarioAtual; // Perde a posse
             return;
         }
 
@@ -190,10 +204,10 @@ public class Partida implements Cloneable{
     private void executarPasse(Jogador passador, Jogador receptor) {
         String resultadoPasse = passador.tocar(receptor, new Adversario("Halland") );
         System.out.println(resultadoPasse);
-
+        this.adversarioAtual = getAdversario();
         if (resultadoPasse.contains("interceptado")) {
             System.out.println("Adversário está com a bola!");
-            this.jogadorComBola = new Adversario("Ladrão de Bolas");
+            this.jogadorComBola = this.adversarioAtual;
         } else {
             System.out.println(receptor.getNome() + " agora está com a bola.");
             this.jogadorComBola.zerarChanceDePasse();
@@ -328,6 +342,7 @@ public class Partida implements Cloneable{
     }
 
     private void tentarRecuar() {
+        this.adversarioAtual = getAdversario();
         System.out.println(this.jogadorComBola.getNome() + " recua a bola para tentar analisar o jogo...");
         boolean resultadoRecuo = this.jogadorComBola.recuar(this.adversarioAtual);
         if (resultadoRecuo) {
