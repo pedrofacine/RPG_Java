@@ -48,6 +48,7 @@ public class Partida implements Cloneable{
         while (partidaEmAndamento) {
             System.out.println("\n--- TURNO " + turno + " ---");
             System.out.println(this.jogadorComBola.getNome() + " está com a bola.");
+            placar();
 
             if(this.jogadorComBola == this.player) {
                 System.out.println("1. Explorar o campo (Avançar com a bola)"); //
@@ -93,6 +94,7 @@ public class Partida implements Cloneable{
             turno++;
         }
 
+
         aplicarFadigaTime();
 
         if(this.golsA<this.golsC) {
@@ -108,8 +110,13 @@ public class Partida implements Cloneable{
         return true;
     }
 
+    public void placar(){
+        System.out.println("Resultado: " + golsA + "x" + golsC);
+    }
+
     private boolean desempate(){
         this.adversarioAtual = getAdversario();
+        placar();
         System.out.println("A partida terminou empatada. O desempate será em X1s!");
         System.out.println(this.player.getNome() + " vai começar contra " + this.adversarioAtual.getNome());
         boolean r = this.player.x1(adversarioAtual);
@@ -179,6 +186,7 @@ public class Partida implements Cloneable{
 
 
     private void decidirPasse() {
+        placar();
         this.adversarioAtual = getAdversario();
         System.out.println("\nPara quem você deseja tocar a bola?");
         System.out.println("1. " + c1.getNome() + " (" + c1.getClass().getSimpleName() + ")");
@@ -222,6 +230,7 @@ public class Partida implements Cloneable{
     }
 
     private void turnoControladoPorIA() {
+        placar();
         // Pausa para o jogador poder ler o que está acontecendo
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
@@ -296,6 +305,7 @@ public class Partida implements Cloneable{
     }
 
     private void usarHabilidade() {
+        placar();
         if (this.jogadorComBola != this.player){
             System.out.println("Apenas o jogador pode usar habilidades do menu");
         }
