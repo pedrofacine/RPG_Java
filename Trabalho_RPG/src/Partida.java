@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Partida extends Jogo{
+public class Partida implements Cloneable{
     private int golsA;
     private int golsC;
     private Jogador player;
@@ -24,8 +24,8 @@ public class Partida extends Jogo{
         this.turno = 0;
     }
 
-    public boolean iniciar(String nomeTimeAdversario) {
-        System.out.println("\n--- A PARTIDA CONTRA " + nomeTimeAdversario +" VAI COMEÇAR! ---");
+    public boolean iniciar() {
+        System.out.println("\n--- A PARTIDA CONTRA " + this.nomeTimeAdversario +" VAI COMEÇAR! ---");
         System.out.println("Você está no centro do campo. O juiz apita!");
 
         // Loop principal do jogo
@@ -312,6 +312,61 @@ public class Partida extends Jogo{
         } else {
             System.out.println(this.jogadorComBola.getNome() + " se atrapalha e perde a bola.");
             this.jogadorComBola = adversarioAtual;
+        }
+    }
+
+    @Override
+    public String toString(){
+        return "Partida: " + this.golsA + "x" + this.golsC + "\n" + this.jogadorComBola + " esta com a bola\n"
+                + "Jogador: " + this.player + " | Adversario atual: " + this.adversarioAtual + " | Jogando contra: "
+                + this.nomeTimeAdversario + "\n|Turno: " + this.turno;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj == this) return true;
+        if(obj == null) return false;
+        if(obj.getClass() != this.getClass()) return false;
+        Partida p = (Partida) obj;
+        if(p.player.equals(this.player) && p.c1.equals(this.c1) &&
+            p.c2.equals(this.c2) && p.nomeTimeAdversario.equals(this.nomeTimeAdversario)
+        ) return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int retorno = 1;
+
+        if(this.player != null) retorno = retorno * 3 + this.player.hashCode();
+        if(this.c1 != null) retorno = retorno * 3 + this.c1.hashCode();
+        if(this.c2 != null) retorno = retorno * 3 + this.c2.hashCode();
+        retorno = retorno * 3 + this.nomeTimeAdversario.hashCode();
+
+        if(retorno < 0 ) retorno = -retorno;
+        return retorno;
+    }
+
+    // construtor de copia
+    public Partida(Partida outra) {
+        this.golsA = outra.golsA;
+        this.golsC = outra.golsC;
+        this.player = (Jogador) outra.player.clone();
+        this.c1 = (Jogador) outra.c1.clone();
+        this.c2 = (Jogador) outra.c2.clone();
+        this.jogadorComBola = (outra.jogadorComBola != null) ? (Jogador) outra.jogadorComBola.clone() : null;
+        this.nomeTimeAdversario = outra.nomeTimeAdversario;
+        this.adversarioAtual = (outra.adversarioAtual != null) ? (Adversario) outra.adversarioAtual.clone() : null;
+        this.random = new Random(); // novo gerador, para não compartilhar o mesmo estado
+        this.turno = outra.turno;
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            return new Partida(this);
+        } catch (Exception e) {
+            return null;
         }
     }
 

@@ -3,29 +3,6 @@
 public class Adversario extends Jogador {
     public Adversario(String nome){
         super(nome, 7.0, 9, 8, 6);
-        /*this.habilidades.addHabilidade(
-                new Habilidade(
-                        "Bote",
-                        "Um bote preciso e na bola",
-                        "Desarme certo",
-                        1
-                )
-        );
-        this.habilidades.addHabilidade(
-                new Habilidade(
-                        "SuperKick",
-                        "Um super chute fortissimo!",
-                        "Aumento da finalizção",
-                        1
-                )
-        );
-        this.habilidades.addHabilidade(
-                new Habilidade("passe teleguiado",
-                        "Um passe com enorme precisão",
-                        "Passe certo",
-                        1
-                )
-        );*/
     }
 
     public String getNome(){
@@ -48,6 +25,6 @@ public class Adversario extends Jogador {
     public String toString(){
         return "Adversario: {" +
                 super.toString() +
-                "habilidades: " + this.habilidades + "}";
+                "}";
     }
 }

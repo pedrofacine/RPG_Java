@@ -22,7 +22,7 @@ public class Defensor extends Jogador{
 
     public Defensor(Defensor d){
         super(d);
-        this.habilidades = (Inventario) this.habilidades.clone();
+        this.habilidades = (Inventario) d.habilidades.clone();
     }
 
     @Override

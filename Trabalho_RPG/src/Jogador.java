@@ -1,6 +1,6 @@
 //Classe Personagem
 
-public abstract class Jogador {
+public abstract class Jogador implements Cloneable {
     protected String nome;
     protected Double condicionamento;
     protected int finalizacao;

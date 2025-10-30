@@ -14,6 +14,31 @@ public class Jogo{
             "Rio Preto"));
     private Random random = new Random();
 
+    public Jogo(){}
+
+    public Jogo(Jogador player, Jogador c1, Jogador c2) {
+        this.player = player;
+        this.c1 = c1;
+        this.c2 = c2;
+    }
+
+    public Jogador getPlayer(){
+        return this.player;
+    }
+    public Jogador getC1() {
+        return c1;
+    }
+    public Jogador getC2() {
+        return c2;
+    }
+    public String getProximoAdversario() {
+        return proximoAdversario;
+    }
+    public List<String> getEquipesAdversarias() {
+        return new ArrayList<>(equipesAdversarias); // cópia defensiva
+    }
+
+
     public void criarPersonagens(){
         for(;;) {
             String nome;
@@ -82,20 +107,20 @@ public class Jogo{
                 this.c2,
                 this.proximoAdversario
         );
-        boolean r = p1.iniciar(this.proximoAdversario);
+        boolean r = p1.iniciar();
         if(r) removerEquipe(this.proximoAdversario);
         return r;
     }
 
     private void jogarFaseDoCampeonato(String nomeDaFase) {
-        System.out.println("\n--- " + nomeDaFase + " ---");
+        System.out.println("\n--- " + nomeDaFase.toUpperCase() + " ---");
         String adversarioDaVez = getRandomTeam();
 
         System.out.println(this.c2.getNome() + " - nosso próximo adversário é o " + adversarioDaVez + ". Vamos com tudo!");
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         Partida partida = new Partida(this.player, this.c1, this.c2, adversarioDaVez);
-        boolean vitoria = partida.iniciar(adversarioDaVez);
+        boolean vitoria = partida.iniciar();
 
         if (!vitoria) {
             eliminacao();
@@ -125,11 +150,111 @@ public class Jogo{
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
         System.out.println(this.c2.getNome() + " - Manda descer gelo!!, " + this.player.getNome() + "!");
         System.out.println("\n*** FIM DE JOGO - VOCÊ VENCEU A COPA MALIGNA! ***");
+        printTaca();
     }
     public void eliminacao(){
         System.out.println("Sua equipe foi eliminada da copa. Boa sorte na proxima!");
         System.out.println(this.c2.getNome() + " pipoqueiro...");
         System.exit(0);
+    }
+
+    public void printTaca(){
+        System.out.println(
+                """
+                        ────────────█▄─█─▄▀▀▄─────▄█────────────
+                        ────────────█─▀█─█──█──────█────────────
+                        ────────────▀──▀──▀▀──▀────▀────────────
+                        ████████████████████████████████████████
+                        ████████████████████████████████████████
+                        ████████████████████████████████████████
+                        ███████████████████▒────██▓█████████████
+                        ██████████████═──────────█▓▓████████████
+                        ███████████▓───────────████══██████─████
+                        ██████████────────────══─██──████─────██
+                        █████████─────▒────██────█─█─███──██──▓█
+                        █████▓▓██─────█──▓███────────▓██─████──█
+                        ████───██───█▒█──█──█▓───────▓█─▒████──█
+                        ███──▓███──███▓─═█──█▓───────██▓█████──█
+                        ███──████─═███▒─█▒──██───────████████──█
+                        ██──▓████──███──███─▓█───────████████──█
+                        ██──█████─██═█─█▒═█─██───────████████─██
+                        ██──█████─═█─█────█─█▓───────███████──██
+                        ██──█████─────────█─█▒───────███████─███
+                        ██──█████─────────█─█────────██████──███
+                        ██──▓████─────────█─█───────═█████──████
+                        ██───████▒────────█─█───────▓████──█████
+                        ██───████▓───────▒█─█───────████──██████
+                        ██▒───████───────▒█─█───────███──███████
+                        ███────███───────▓█─█───────██──████████
+                        ███═───███───────██─█──────▒█▓─█████████
+                        ████────██▒──────█▒─███────██─██████████
+                        █████────██───▒▓▓█───██────█▒─██████████
+                        ██████────█───███▓───██────█─▓██████████
+                        ███████───██──▓█─────█▓───██─███████████
+                        ████████───█──═█─█████═───█──▓██████████
+                        ████████───██──██████▒────█──────███████
+                        █████████──██──▒─────────██──────███████
+                        █████████──▓█▓───────────███────████████
+                        █████████═─▓██──────────█████─▒█████████
+                        █████████▓─████────────▓████████████████
+                        █████████──████▓──────═█████████████████
+                        ████████──██████▓────▓██████████████████
+                        ███████▒─███████████████████████████████
+                        █████████████████▒▒▓──██████████████████
+                        █████████████████▒───▓██████████████████
+                        ██████████████████───███████████████████
+                        ██████████████████──▒███████████████████
+                        ████████████████████████████████████████
+                        ██████████████████▓▒────████████████████
+                        ████████████████─────────▒██████████████
+                        ███████████████══█▓█████████████████████
+                        ██████████████████████████████▓█████████
+                        █████████████──────────────▓█▒▒█████████
+                        ██████████▒██─────═─══════─██▒▓█████████
+                        ██████████▓▓█──══════════──██▒██████████
+                        ███████████▒█▒─══─═────────█▓▒██████████
+                        ███████████▒██──────────▒─▒█▓▓██████████
+                        ███████████▒▓█─▒████████████▒▓██████████
+                        ███████████▓▒███████▓▓▓▓▓▒▒▒▒███████████
+                        ████████████▒█▓▓▒▒▒▒▓▓▓▓▓███████████████
+                        ████████████▓▓▓▓████████████████████████
+                        ████████████████████████████████████████
+                        """);
+    }
+
+    @Override
+    public String toString() {
+        return "Jogo{" +
+                "player=" + player +
+                ", c1=" + c1 +
+                ", c2=" + c2 +
+                ", equipesAdversarias=" + equipesAdversarias +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if(getClass() != obj.getClass()) return false;
+
+        Jogo jogo = (Jogo) obj;
+        return player.equals(jogo.player)
+                && c1.equals(jogo.c1)
+                && c2.equals(jogo.c2)
+                && equipesAdversarias.equals(jogo.equipesAdversarias);
+    }
+
+    @Override
+    public int hashCode() {
+        int retorno = 1;
+        if(this.player != null) retorno = retorno * 3 + this.player.hashCode();
+        if(this.c1 != null) retorno = retorno * 3 + this.c1.hashCode();
+        if(this.c2 != null) retorno = retorno * 3 + c2.hashCode();
+        retorno = retorno * 3 + equipesAdversarias.hashCode();
+
+        if(retorno < 0) retorno = -retorno;
+        return retorno;
     }
 
     public static void main(String[] args) {
