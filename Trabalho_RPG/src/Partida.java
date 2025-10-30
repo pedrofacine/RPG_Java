@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Random;
 
 public class Partida implements Cloneable{
@@ -83,11 +84,24 @@ public class Partida implements Cloneable{
             System.out.println("Você perdeu a partida.");
             return false;
         }
-        else if(this.golsC == this.golsC) {
-            //penaltis()
+        else if(this.golsA == this.golsC) {
+            if(!desempate()) return false;
         }
         System.out.println("Voce venceu a partida!");
+        this.player.aumentarNivel(1);
+        // adicinarr habilidade
         return true;
+    }
+
+    private boolean desempate(){
+        System.out.println("A partida terminou empatada. O desempate será em X1s!");
+        System.out.println(this.player.getNome() + " vai começar contra " + this.adversarioAtual.getNome());
+        boolean r = this.player.x1(adversarioAtual);
+        if(r){
+            System.out.println("--- Você venceu a partida! ---");
+            return true;
+        }
+        return false;
     }
 
     private boolean chancePerderBola(){
@@ -122,6 +136,7 @@ public class Partida implements Cloneable{
                 if (resultado.startsWith("Gol")) {
                     System.out.println(this.jogadorComBola.getNome() + " MARCOU!");
                     this.golsA ++;
+                    if(random.nextInt(100) < 30) this.jogadorComBola.aumentarNivel(1); // chance de 30% de subir de nivel após gol
                     if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");
                     this.jogadorComBola = adversarioAtual;
                 }else if(resultado.startsWith("Drible")){

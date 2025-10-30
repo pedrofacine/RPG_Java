@@ -51,9 +51,20 @@ public abstract class Jogador implements Cloneable {
 
     public void aumentarChanceDeChutar(int aumento){
         this.chanceDeChutar += aumento;
+        System.out.println(this.nome + " teve a chance de chutar aumentada! Chance de chute: " + this.chanceDeChutar);
     }
-    public void aumentarChanceDePasse(int aumento) { this.chanceDePasse += aumento;}
-    public void aumentarDefesa(int aumento){ this.chanceDePasse += aumento; }
+    public void aumentarChanceDePasse(int aumento) {
+        this.chanceDePasse += aumento;
+        System.out.println(this.nome + " teve a chance de passe aumentada! Chance de passe: " + this.chanceDePasse);
+    }
+    public void aumentarDefesa(int aumento){
+        this.chanceDePasse += aumento;
+        System.out.println(this.nome + " teve a defesa aumentada! Defesa: " + this.defesa);
+    }
+    public void aumentarNivel(int aumento){
+        this.nivel += aumento;
+        System.out.println(this.nome + " subiu de nivel! Nivel: " + this.nivel );
+    }
 
     public void zerarChanceDeChutar(){
         this.chanceDeChutar = 0;
@@ -95,6 +106,10 @@ public abstract class Jogador implements Cloneable {
                 if (this instanceof Defensor && margemDeVitoria > 6) {
                     this.nivel += 1;
                     return "GOL INACREDITÁVEL DE " + this.nome + "! Pegou todo mundo de surpresa!";
+                }
+
+                if(this instanceof Adversario && margemDeVitoria > 3){
+                    return "Gol de" + this.nome + "! Um chute preciso!";
                 }
 
                 // Se venceu a disputa, mas não o suficiente para a sua posição marcar, a bola vai na trave.
@@ -150,6 +165,20 @@ public abstract class Jogador implements Cloneable {
             this.aumentarChanceDePasse(2);
             return true;
         }else{
+            return false;
+        }
+    }
+
+    public boolean x1(Jogador adversario){
+        System.out.println(this.getNome() + " vai tirar o x1 com " + adversario.getNome());
+        double chanceThis = this.condicionamento + this.nivel + this.dado() + this.finalizacao;
+        double chanceAdversario = adversario.getCondicionamento() + adversario.getNivel() + adversario.dado() + adversario.getDefesa();
+
+        if(chanceThis > chanceAdversario){
+            System.out.println(this.getNome() + " marca e vence o x1!");
+            return true;
+        }else{
+            System.out.println(adversario.getNome() + " marca e vence o x1!");
             return false;
         }
     }
