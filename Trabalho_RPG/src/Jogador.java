@@ -9,6 +9,7 @@ public abstract class Jogador implements Cloneable {
     protected Inventario habilidades;
     protected int chanceDeChutar;
     protected int chanceDePasse;
+    private final int desgaste = 1;
 
     public Jogador(String nome, Double condicionamento, int finalizacao, int defesa, int nivel){
         this.nome = nome;
@@ -109,7 +110,7 @@ public abstract class Jogador implements Cloneable {
                 }
 
                 if(this instanceof Adversario && margemDeVitoria > 3){
-                    return "Gol de" + this.nome + "! Um chute preciso!";
+                    return "Gol de " + this.nome + "! Um chute preciso!";
                 }
 
                 // Se venceu a disputa, mas não o suficiente para a sua posição marcar, a bola vai na trave.
@@ -183,10 +184,17 @@ public abstract class Jogador implements Cloneable {
         }
     }
 
+    public void diminuirCondicionamento() {
+        double novoCondicionamento = this.condicionamento - desgaste;
+        this.condicionamento = Math.max(1.0, novoCondicionamento);
+        System.out.println(nome + " está fatigado! Condicionamento atual: " + this.condicionamento);
+    }
+
 
     public int dado() {
         return ((int) (Math.random() * (10)))+1;
     }
+
 
     @Override
     public String toString(){ return "{" + this.nome + "|\n" + "Condicionamento: " + this.condicionamento + "|\n" +

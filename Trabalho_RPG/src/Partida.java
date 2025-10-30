@@ -23,6 +23,7 @@ public class Partida implements Cloneable{
         this.nomeTimeAdversario = nomeTimeAdversario;
         random = new Random();
         this.turno = 0;
+        this.adversarioAtual = new Adversario("Fernandinho");
     }
 
     public boolean iniciar() {
@@ -80,6 +81,9 @@ public class Partida implements Cloneable{
 
             turno++;
         }
+
+        aplicarFadigaTime();
+
         if(this.golsA<this.golsC) {
             System.out.println("Você perdeu a partida.");
             return false;
@@ -122,7 +126,6 @@ public class Partida implements Cloneable{
 
     private void avancarComABola() {
         System.out.println(this.jogadorComBola.getNome() + " avança pelo campo...");
-        this.adversarioAtual = new Adversario("Fernandinho");
 
         if (Math.random() > 0.3) { // 70% de chance de encontrar um adversário
             System.out.println("Um adversário (" + adversarioAtual.getNome() + ") aparece!");
@@ -136,7 +139,7 @@ public class Partida implements Cloneable{
                 if (resultado.startsWith("Gol")) {
                     System.out.println(this.jogadorComBola.getNome() + " MARCOU!");
                     this.golsA ++;
-                    if(random.nextInt(100) < 30) this.jogadorComBola.aumentarNivel(1); // chance de 30% de subir de nivel após gol
+                    if(random.nextInt(100) < 20) this.jogadorComBola.aumentarNivel(1); // chance de 30% de subir de nivel após gol
                     if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");
                     this.jogadorComBola = adversarioAtual;
                 }else if(resultado.startsWith("Drible")){
@@ -196,6 +199,12 @@ public class Partida implements Cloneable{
             this.jogadorComBola.zerarChanceDePasse();
             this.jogadorComBola = receptor; // A posse é transferida corretamente
         }
+    }
+
+    private void aplicarFadigaTime() {
+        this.player.diminuirCondicionamento();
+        this.c1.diminuirCondicionamento();
+        this.c2.diminuirCondicionamento();
     }
 
     private void turnoControladoPorIA() {
@@ -320,7 +329,6 @@ public class Partida implements Cloneable{
 
     private void tentarRecuar() {
         System.out.println(this.jogadorComBola.getNome() + " recua a bola para tentar analisar o jogo...");
-        this.adversarioAtual = new Adversario("Neto");
         boolean resultadoRecuo = this.jogadorComBola.recuar(this.adversarioAtual);
         if (resultadoRecuo) {
             System.out.println("Recuo bem-sucedido! Sua precisão de passe foi aumentada.");

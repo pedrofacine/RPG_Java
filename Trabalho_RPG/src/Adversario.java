@@ -21,6 +21,14 @@ public class Adversario extends Jogador {
         return this.nivel;
     }
 
+    public void aumentarStatsAdversario(){
+        this.condicionamento ++;
+        this.finalizacao ++;
+        this.defesa ++;
+        this.nivel ++;
+        System.out.println("Os adversários estão mais fortes!");
+    }
+
     @Override
     public String toString(){
         return "Adversario: {" +
