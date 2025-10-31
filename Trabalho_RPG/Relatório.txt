@@ -1,0 +1,22 @@
+Relatório desenvolvimento RPG Java - POO
+
+    O jogo principal envolve jogadores que enfrentam adversários em disputas baseadas
+em rolagem de dados, utilizando seus atributos e habilidades. Adicionalmente,
+o jogo inclui a disputa de partidas de futebol, dentro de um curto campeonato.
+
+    Com o avançar do jogo, adversários vão se tornando mais forte e seus jogadores se
+enfraquecendo, tornando o jogo mais competitivo.
+
+    Durante o planejamento e desenvolvimento do jogo enfrentamos algumas dificuldades e
+tivemos certas facilidades. Um ponto importante que ajudou no desenvolvimento foi a modularização
+do código por meio da POO, isso tornou algo organizado e estruturado para ser desenvolvido.
+
+Pedro Facine - 24006528: Nota 8
+-> Ideação e estruturação por meio do POO facilitou no processo antes da codificação.
+Conseguimos criar classes bem definidas para Entidades, Mecânicas
+e Itens/Habilidades, facilitando a manutenção e a expansão projeto.
+
+    Uma dificuldade foi na questão do balanceamento e da progressão do jogo. Garantir que a rolagem
+de dados, combinada com o uso de múltiplos atributos e habilidades, oferecesse um desafio justo e
+progressivo (onde adversários ficam mais fortes e jogadores se enfraquecem) exigiu diversas iterações
+e ajustes finos nas fórmulas e nos atributos.
