@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,6 +11,13 @@ public class Jogo{
             "CFC", "Ponte Branca", "GPS FC", "BT FC",
             "Linux FC", "POO FC", "Primavera Black",
             "Rio Preto"));
+    private List<String> adversarios = new ArrayList<>(
+            List.of(
+                    "Fernandinho", "Cucurella", "Neto", "Fabricio Bruono",
+                    "Mateus Silva", "Iago Dias", "Gabriel Risso", "Mateus Regis",
+                    "Castro"
+            )
+    );
     private Random random = new Random();
 
     public Jogo(){}
@@ -77,10 +83,30 @@ public class Jogo{
                 this.c2 = new MeioCampo("Neymar");
             }
 
-            imprimirComAnimacao("\nJogador criado com sucesso:\n" + player);
-            imprimirComAnimacao("\nSeus companheiros de time são:\n" + c1 + "\n" + c2);
+            System.out.println("\nJogador criado com sucesso:\n" + this.player);
+            try { Thread.sleep(2000); } catch (InterruptedException e) {}
+            System.out.println("\nSeus companheiros de time são:\n" + this.c1 + "\n");
+            try { Thread.sleep(2000); } catch (InterruptedException e) {}
+            System.out.println(this.c2);
             return;
         }
+    }
+    public List<String> getAdversarios(){
+        List<String> jogadoresDaPartida = new ArrayList<>();
+
+        if (this.adversarios.size() < 3) {
+            System.out.println("Não há adversários suficientes na lista para uma nova partida!");
+            return jogadoresDaPartida;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            int randomIndex = random.nextInt(this.adversarios.size());
+            String jogadorSorteado = this.adversarios.remove(randomIndex);
+
+            jogadoresDaPartida.add(jogadorSorteado);
+        }
+
+        return jogadoresDaPartida;
     }
 
     public String getRandomTeam(){
@@ -100,7 +126,7 @@ public class Jogo{
         imprimirComAnimacao(this.c2.getNome() + " - nosso próximo adversário é o " + adversarioDaVez + ". Vamos com tudo!");
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
-        Partida partida = new Partida(this.player, this.c1, this.c2, adversarioDaVez);
+        Partida partida = new Partida(this.player, this.c1, this.c2, adversarioDaVez, getAdversarios());
         boolean vitoria = partida.iniciar();
 
         if (!vitoria) {
@@ -135,7 +161,7 @@ public class Jogo{
     }
     public void eliminacao(){
         imprimirComAnimacao("Sua equipe foi eliminada da copa. Boa sorte na proxima!");
-        imprimirComAnimacao(this.c2.getNome() + " pipoqueiro...");
+        imprimirComAnimacao(this.c2.getNome() + " - pipoqueiro...");
         System.exit(0);
     }
 
@@ -245,16 +271,22 @@ public class Jogo{
     }
 
     private void imprimirComAnimacao(String texto) {
-        for (char c : texto.toCharArray()) {
-            System.out.print(c);
-            System.out.flush();
+        java.util.Random random = new java.util.Random();
+        long baseDelay = 10;
+        StringBuilder buffer = new StringBuilder();
+
+        for (int i = 0; i < texto.length(); i++) {
+            buffer.append(texto.charAt(i));
+
+            // imprime a cada 3 caracteres (ajustável)
+            if (i % 3 == 0 || i == texto.length() - 1) {
+                System.out.print(buffer);
+                System.out.flush();
+                buffer.setLength(0);
+            }
 
             try {
-                if (".!?".indexOf(c) >= 0) {
-                    Thread.sleep(200); // pausa leve no fim da frase
-                } else {
-                    Thread.sleep(2); // super rápido entre letras
-                }
+                Thread.sleep(baseDelay);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

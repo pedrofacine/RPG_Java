@@ -34,7 +34,7 @@ public class Habilidade implements Comparable<Habilidade>{
 
     @Override
     public String toString(){
-        return "{"+this.nome + '|' + this.desc + '|' +this.efeito + '|' + this.qtd + "}";
+        return "\n"+this.nome + "|" + this.desc + "|" +this.efeito + "| Quantidade: " + this.qtd + "|";
     }
 
     @Override

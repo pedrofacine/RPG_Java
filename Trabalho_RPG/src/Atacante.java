@@ -16,9 +16,9 @@ public class Atacante extends Jogador {
     }
     @Override
     public String toString(){
-        return "Atacante: {" +
+        return "Atacante: \n" +
                 super.toString() + "|\n"  +
-                "habilidades: " + this.habilidades + "}";
+                "habilidades: " + this.habilidades + "|";
     }
 
     public Atacante(Atacante a){

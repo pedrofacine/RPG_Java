@@ -5,7 +5,7 @@ public class MeioCampo extends Jogador {
     public MeioCampo(String nome){
         super(nome, 7.0, 6, 5);
         this.habilidades.addHabilidade(
-                new Habilidade("passe teleguiado",
+                new Habilidade("Passe Teleguiado",
                         "Um passe com enorme precisão",
                         "Passe certo",
                         1
@@ -15,9 +15,9 @@ public class MeioCampo extends Jogador {
 
     @Override
     public String toString(){
-        return "MeioCampo: {" +
+        return "MeioCampo: \n" +
                 super.toString() + '|' +
-                "habilidades: " + '|' + this.habilidades + '|' + "}";
+                "habilidades: " + '|' + this.habilidades + '|';
     }
 
     public MeioCampo(MeioCampo m){

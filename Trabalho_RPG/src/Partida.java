@@ -16,7 +16,7 @@ public class Partida implements Cloneable{
     private Random random;
     private int turno;
 
-    public Partida(Jogador player, Jogador c1, Jogador c2, String nomeTimeAdversario) {
+    public Partida(Jogador player, Jogador c1, Jogador c2, String nomeTimeAdversario, List<String> adversarios) {
         golsA = 0;
         golsC = 0;
         this.player = player;
@@ -27,9 +27,9 @@ public class Partida implements Cloneable{
         random = new Random();
         this.turno = 0;
         this.adversarios = new ArrayList<Adversario>();
-        this.adversarios.add(new Adversario("Fernandinho"));
-        this.adversarios.add(new Adversario("Neto"));
-        this.adversarios.add(new Adversario("Cucurella"));
+        this.adversarios.add(new Adversario(adversarios.get(0)));
+        this.adversarios.add(new Adversario(adversarios.get(1)));
+        this.adversarios.add(new Adversario(adversarios.get(2)));
         this.adversarioAtual = null;
     }
 
@@ -46,9 +46,10 @@ public class Partida implements Cloneable{
         this.turno = 1;
 
         while (partidaEmAndamento) {
+            try { Thread.sleep(1500); } catch (InterruptedException e) {}
             System.out.println("\n--- TURNO " + turno + " ---");
-            System.out.println(this.jogadorComBola.getNome() + " está com a bola.");
             placar();
+            System.out.println(this.jogadorComBola.getNome() + " está com a bola.");
 
             if(this.jogadorComBola == this.player) {
                 System.out.println("1. Explorar o campo (Avançar com a bola)"); //
@@ -106,7 +107,37 @@ public class Partida implements Cloneable{
         }
         System.out.println("Voce venceu a partida!");
         this.player.aumentarNivel(1);
-        // adicinarr habilidade
+        if(this.player instanceof Atacante){
+            this.player.habilidades.addHabilidade(
+                new Habilidade(
+                    "SuperKick",
+                    "Um super chute fortissimo!",
+                    "Aumento da finalização",
+                    1
+                )
+            );
+            imprimirComAnimacao("Parabens, você recebeu uma habilidade! - SuperKick|\n" + this.player.habilidades );
+        }else if(this.player instanceof MeioCampo){
+            this.player.habilidades.addHabilidade(
+                    new Habilidade(
+                            "Passe Teleguiado",
+                            "Um passe com enorme precisão",
+                            "Passe certo",
+                            1
+                    )
+            );
+            imprimirComAnimacao("Parabens, você recebeu uma habilidade! - Passe Teleguiado|\n" + this.player.habilidades );
+        }else if(this.player instanceof Defensor){
+            this.player.habilidades.addHabilidade(
+                    new Habilidade(
+                            "Bote",
+                            "Um bote preciso e na bola",
+                            "Desarme certo",
+                            1
+                    )
+            );
+            imprimirComAnimacao("Parabens, você recebeu uma habilidade! - Bote|\n" + this.player.habilidades );
+        }
         return true;
     }
 
@@ -118,7 +149,8 @@ public class Partida implements Cloneable{
         this.adversarioAtual = getAdversario();
         placar();
         System.out.println("A partida terminou empatada. O desempate será em X1s!");
-        System.out.println(this.player.getNome() + " vai começar contra " + this.adversarioAtual.getNome());
+        try { Thread.sleep(2000); } catch (InterruptedException e) {}
+        imprimirComAnimacao(this.player.getNome() + " vai começar contra " + this.adversarioAtual.getNome());
         boolean r = this.player.x1(adversarioAtual);
         if(r){
             System.out.println("--- Você venceu a partida! ---");
@@ -148,8 +180,8 @@ public class Partida implements Cloneable{
         this.adversarioAtual = getAdversario();
 
         if (Math.random() > 0.3) { // 70% de chance de encontrar um adversário
-            System.out.println("Um adversário (" + adversarioAtual.getNome() + ") aparece!");
-            System.out.println(this.adversarioAtual.toString());
+            imprimirComAnimacao("Um adversário (" + adversarioAtual.getNome() + ") aparece!");
+            imprimirComAnimacao(this.adversarioAtual.toString());
 
             // Enfrentar o adversário e obter o resultado (pode ser um gol)
             String resultado = this.jogadorComBola.enfrentar(this.adversarioAtual);
@@ -157,29 +189,35 @@ public class Partida implements Cloneable{
             if (!resultado.isEmpty()) {
                 System.out.println("\n*** " + resultado + " ***\n");
                 if (resultado.startsWith("Gol")) {
+                    try { Thread.sleep(1500); } catch (InterruptedException e) {}
                     System.out.println(this.jogadorComBola.getNome() + " MARCOU!");
                     this.golsA ++;
                     if(random.nextInt(100) < 20) this.jogadorComBola.aumentarNivel(1); // chance de 30% de subir de nivel após gol
-                    if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");
+                    if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");
                     this.jogadorComBola = adversarioAtual;
                 }else if(resultado.startsWith("Drible")){
+                    try { Thread.sleep(1500); } catch (InterruptedException e) {}
                     this.jogadorComBola.aumentarChanceDeChutar(5);
                 }
                 else{
-                    System.out.println("A defesa adversária recupera a posse de bola.");
+                    try { Thread.sleep(1500); } catch (InterruptedException e) {}
+                    imprimirComAnimacao("A defesa adversária recupera a posse de bola.");
                     this.jogadorComBola = adversarioAtual;
                 }
             } else {
-                System.out.println(this.jogadorComBola.getNome() + " driblou o adversário e se aproximou do gol!");
+                try { Thread.sleep(1500); } catch (InterruptedException e) {}
+                imprimirComAnimacao(this.jogadorComBola.getNome() + " driblou o adversário e se aproximou do gol!");
                 this.jogadorComBola.aumentarChanceDeChutar(5);
             }
 
         }else if(chancePerderBola()){
-            System.out.println(this.jogadorComBola.getNome() + " se atrapalhou e perdeu a bola.");
+            try { Thread.sleep(1500); } catch (InterruptedException e) {}
+            imprimirComAnimacao(this.jogadorComBola.getNome() + " se atrapalhou e perdeu a bola.");
             this.jogadorComBola.zerarChanceDeChutar();
             this.jogadorComBola = this.adversarioAtual;
         }else {
-            System.out.println(this.jogadorComBola.getNome() + " correu por um espaço vazio e ganhou terreno!");
+            try { Thread.sleep(1500); } catch (InterruptedException e) {}
+            imprimirComAnimacao(this.jogadorComBola.getNome() + " correu por um espaço vazio e ganhou terreno!");
             this.jogadorComBola.aumentarChanceDeChutar(3);
         }
     }
@@ -200,12 +238,11 @@ public class Partida implements Cloneable{
         } else if (escolha.equals("2")) {
             companheiro = c2;
         } else {
-            System.out.println("Escolha inválida! A posse de bola foi perdida.");
+            imprimirComAnimacao("Escolha inválida! A posse de bola foi perdida.");
             this.jogadorComBola = this.adversarioAtual; // Perde a posse
             return;
         }
 
-        // Agora, chame o método de lógica com o alvo escolhido
         executarPasse(this.jogadorComBola, companheiro);
     }
 
@@ -214,10 +251,12 @@ public class Partida implements Cloneable{
         System.out.println(resultadoPasse);
         this.adversarioAtual = getAdversario();
         if (resultadoPasse.contains("interceptado")) {
-            System.out.println("Adversário está com a bola!");
+            try { Thread.sleep(1500); } catch (InterruptedException e) {}
+            imprimirComAnimacao("Adversário está com a bola!");
             this.jogadorComBola = this.adversarioAtual;
         } else {
-            System.out.println(receptor.getNome() + " agora está com a bola.");
+            try { Thread.sleep(1500); } catch (InterruptedException e) {}
+            imprimirComAnimacao(receptor.getNome() + " agora está com a bola.");
             this.jogadorComBola.zerarChanceDePasse();
             this.jogadorComBola = receptor; // A posse é transferida corretamente
         }
@@ -227,6 +266,10 @@ public class Partida implements Cloneable{
         this.player.diminuirCondicionamento();
         this.c1.diminuirCondicionamento();
         this.c2.diminuirCondicionamento();
+
+        this.player.zerarChances();
+        this.c1.zerarChances();
+        this.c2.zerarChances();
     }
 
     private void turnoControladoPorIA() {
@@ -244,22 +287,26 @@ public class Partida implements Cloneable{
         }
 
         if (this.jogadorComBola instanceof Atacante) {
-            System.out.println(this.jogadorComBola.getNome() + " está no ataque...");
+            imprimirComAnimacao(this.jogadorComBola.getNome() + " está no ataque...");
             if (random.nextInt(100) < 20) { // 20% de chance de um atacante tocar
                 executarPasse(this.jogadorComBola, alvoDoPasse);
             } else {
-                System.out.println("Ele decide partir pra cima!");
+                try { Thread.sleep(1500); } catch (InterruptedException e) {}
+                imprimirComAnimacao("Ele decide partir pra cima!");
                 avancarComABola();
             }
         } else if (this.jogadorComBola instanceof Defensor) {
-            System.out.println(this.jogadorComBola.getNome() + " prefere a segurança e toca a bola.");
+            try { Thread.sleep(1500); } catch (InterruptedException e) {}
+            imprimirComAnimacao(this.jogadorComBola.getNome() + " prefere a segurança e toca a bola.");
             executarPasse(this.jogadorComBola, alvoDoPasse);
         } else if (this.jogadorComBola instanceof MeioCampo) {
-            System.out.println(this.jogadorComBola.getNome() + " analisa o jogo no meio-campo...");
+            try { Thread.sleep(1500); } catch (InterruptedException e) {}
+            imprimirComAnimacao(this.jogadorComBola.getNome() + " analisa o jogo no meio-campo...");
             if (random.nextInt(100) < 60) { // 60% de chance de tocar e armar o jogo
                 executarPasse(this.jogadorComBola, alvoDoPasse);
             } else {
-                System.out.println("Ele vê uma brecha e decide avançar!");
+                try { Thread.sleep(1500); } catch (InterruptedException e) {}
+                imprimirComAnimacao("Ele vê uma brecha e decide avançar!");
                 avancarComABola();
             }
         }
@@ -275,30 +322,30 @@ public class Partida implements Cloneable{
     }
 
     public void turnoAdversario() {
-        try { Thread.sleep(2000); } catch (InterruptedException e) {}
+        try { Thread.sleep(2500); } catch (InterruptedException e) {}
 
-        System.out.println(this.jogadorComBola.getNome() + " avança com a bola para o ataque!");
+        imprimirComAnimacao(this.jogadorComBola.getNome() + " avança com a bola para o ataque!");
 
         Jogador defensorEscolhido = escolherDefensor();
-        System.out.println("Ele vai pra cima de " + defensorEscolhido.nome);
+        imprimirComAnimacao("Ele vai pra cima de " + defensorEscolhido.nome);
 
         String resultadoAtaque = this.jogadorComBola.enfrentar(defensorEscolhido);
         if (resultadoAtaque.isEmpty()) {
             // RESULTADO VAZIO = DESARME!
-            System.out.println(defensorEscolhido.getNome() + " fez um belo desarme!");
+            imprimirComAnimacao(defensorEscolhido.getNome() + " fez um belo desarme!");
             this.jogadorComBola = defensorEscolhido;
         } else {
             // QUALQUER OUTRO RESULTADO = TENTATIVA DE CHUTE OU DRIBLE BEM-SUCEDIDO
             System.out.println("\n*** " + resultadoAtaque + " ***\n");
             if (resultadoAtaque.startsWith("Gol")) {
-                System.out.println("GOL DO ADVERSÁRIO!");
+                imprimirComAnimacao("GOL DO ADVERSÁRIO!");
                 this.golsC++;
                 if(this.turno == 15) System.out.println("NO ULTIMO LANCE!!!");
                 this.jogadorComBola = this.player;
             } else if (resultadoAtaque.startsWith("Drible")) {
-                System.out.println("O adversário continua com a posse, se aproximando da área!");
+                imprimirComAnimacao("O adversário continua com a posse, se aproximando da área!");
             } else {
-                System.out.println("A posse é retomada!");
+                imprimirComAnimacao("A posse é retomada!");
                 this.jogadorComBola = escolherDefensor();
             }
         }
@@ -334,18 +381,23 @@ public class Partida implements Cloneable{
 
         switch (habilidadeEscolhida.getNome().toLowerCase()){
             case "superkick":
-                System.out.println("Seu próximo chute terá uma força extra!");
+                imprimirComAnimacao("Seu próximo chute terá uma força extra!");
                 this.player.aumentarChanceDeChutar(10);
                 this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
                 break;
             case "passe teleguiado":
-                System.out.println("Seu proximo passe terá precisão máxima!");
+                imprimirComAnimacao("Seu proximo passe terá precisão máxima!");
                 this.player.aumentarChanceDePasse(10);
                 this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
                 break;
             case "bote":
-                System.out.println("Seu proximo desarme será preciso!");
+                imprimirComAnimacao("Seu proximo desarme será preciso!");
                 this.player.aumentarDefesa(10);
+                this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
+                break;
+            case "drible":
+                imprimirComAnimacao("Sua chance de chute será aumentada!");
+                this.player.aumentarChanceDeChutar(5);
                 this.player.habilidades.removeHabilidade(habilidadeEscolhida, 1);
                 break;
         }
@@ -356,9 +408,9 @@ public class Partida implements Cloneable{
         System.out.println(this.jogadorComBola.getNome() + " recua a bola para tentar analisar o jogo...");
         boolean resultadoRecuo = this.jogadorComBola.recuar(this.adversarioAtual);
         if (resultadoRecuo) {
-            System.out.println("Recuo bem-sucedido! Sua precisão de passe foi aumentada.");
+            imprimirComAnimacao("Recuo bem-sucedido! Sua precisão de passe foi aumentada.");
         } else {
-            System.out.println(this.jogadorComBola.getNome() + " se atrapalha e perde a bola.");
+            imprimirComAnimacao(this.jogadorComBola.getNome() + " se atrapalha e perde a bola.");
             this.jogadorComBola = adversarioAtual;
         }
     }
@@ -416,6 +468,30 @@ public class Partida implements Cloneable{
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private void imprimirComAnimacao(String texto) {
+        java.util.Random random = new java.util.Random();
+        long baseDelay = 10;
+        StringBuilder buffer = new StringBuilder();
+
+        for (int i = 0; i < texto.length(); i++) {
+            buffer.append(texto.charAt(i));
+
+            // imprime a cada 3 caracteres (ajustável)
+            if (i % 3 == 0 || i == texto.length() - 1) {
+                System.out.print(buffer);
+                System.out.flush();
+                buffer.setLength(0);
+            }
+
+            try {
+                Thread.sleep(baseDelay);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println();
     }
 
 }

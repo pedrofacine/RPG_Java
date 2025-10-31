@@ -15,9 +15,9 @@ public class Defensor extends Jogador{
 
     @Override
     public String toString(){
-        return "Defensor: {" +
+        return "Defensor: \n" +
                 super.toString() +
-                "habilidades: " + this.habilidades + "}";
+                "habilidades: " + this.habilidades + "|";
     }
 
     public Defensor(Defensor d){

@@ -71,6 +71,10 @@ public abstract class Jogador implements Cloneable {
         this.chanceDeChutar = 0;
     }
     public void zerarChanceDePasse() { this.chanceDePasse = 0; }
+    public void zerarChances(){
+        zerarChanceDePasse();
+        zerarChanceDeChutar();
+    }
 
     public String enfrentar(Jogador defensor) {
         System.out.println(this.nome + " está com a bola enfrentando " + defensor.getNome() + "!");
@@ -94,18 +98,15 @@ public abstract class Jogador implements Cloneable {
                 int margemDeVitoria = ataque - defesa;
 
                 if(this instanceof Atacante && margemDeVitoria > 2){
-                    this.nivel +=1;
                     return "Gol de " + this.nome + "! Um chute preciso no canto!";
                 }
 
                 if (this instanceof MeioCampo && margemDeVitoria > 4) {
-                    this.nivel += 1;
                     return "Gol de " + this.nome + "! Um belo chute de média distância!";
                 }
 
                 // DEFENSOR: Precisa de uma grande vantagem (sorte), pois não é sua função.
                 if (this instanceof Defensor && margemDeVitoria > 6) {
-                    this.nivel += 1;
                     return "GOL INACREDITÁVEL DE " + this.nome + "! Pegou todo mundo de surpresa!";
                 }
 
@@ -138,14 +139,13 @@ public abstract class Jogador implements Cloneable {
         double chance =  this.condicionamento + this.chanceDePasse + this.nivel + dado();
 
         // Chance de erro aleatória do adversário (simula interceptação)
-        int defesaAdversaria = (adversario.getDefesa()) + adversario.dado() + adversario.getNivel();
+        double defesaAdversaria = adversario.getCondicionamento() + (adversario.getDefesa()) + adversario.dado() + adversario.getNivel();
 
         System.out.println("Precisão do passe: " + chance + " | Pressão adversária: " + defesaAdversaria);
 
         if (chance > defesaAdversaria) {
             if (dado() > 7) {
-                // Passe excelente gera bônus de moral ou experiência
-                this.nivel++;
+                if (this instanceof MeioCampo) aumentarNivel(1); // se passe for perfeito e player meio campo, sobe de nivel
                 return "Passe perfeito para " + companheiro.getNome();
             } else {
                 return "Passe completo! " + companheiro.getNome() + " domina a bola.";
@@ -197,7 +197,7 @@ public abstract class Jogador implements Cloneable {
 
 
     @Override
-    public String toString(){ return "{" + this.nome + "|\n" + "Condicionamento: " + this.condicionamento + "|\n" +
+    public String toString(){ return "\n" + this.nome + "|\n" + "Condicionamento: " + this.condicionamento + "|\n" +
             "Finalização: " + this.finalizacao + "|\n"
             + "Defesa: " + this.defesa + "|\n"
             +"Nível: " + this.nivel + "}";}

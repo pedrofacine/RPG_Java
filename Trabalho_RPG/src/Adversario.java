@@ -31,8 +31,8 @@ public class Adversario extends Jogador {
 
     @Override
     public String toString(){
-        return "Adversario: {" +
+        return "Adversario: \n" +
                 super.toString() +
-                "}";
+                "|";
     }
 }
