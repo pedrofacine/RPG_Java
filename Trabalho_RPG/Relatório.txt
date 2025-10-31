@@ -14,14 +14,10 @@ do código por meio da POO, isso tornou algo organizado e estruturado para ser d
 Todos os membros do trabalho implementaram, ajustaram, corrigiram métodos e atributos em todas as classes do projeto.
 
 Pedro Facine - 24006528: Nota 8
--> Ideação e estruturação por meio do POO facilitou no processo antes da codificação.
-Conseguimos criar classes bem definidas para Entidades, Mecânicas
-e Itens/Habilidades, facilitando a manutenção e a expansão projeto.
-
-    Uma dificuldade foi na questão do balanceamento e da progressão do jogo. Garantir que a rolagem
-de dados, combinada com o uso de múltiplos atributos e habilidades, oferecesse um desafio justo e
-progressivo (onde adversários ficam mais fortes e jogadores se enfraquecem) exigiu diversas iterações
-e ajustes finos nas fórmulas e nos atributos.
+-> Alguns métodos da POO, Criação das classes de entidades (Jogador, Adversário, Atacante...) e Inventário.
+Implementações em diversas classes, tais como diminuição do condicionamento (Vida) dos jogadores e aumento dos atributos
+dos adversários para aumentar dificuldade conforme evolução no jogo, métodos de enfrentar e ser enfrentado, passe,
+dado, placar, avançar com a bola, dentro outros. De qualquer forma, a implementação foi feita pela equipe de modo geral.
 
 Pedro Pelaes Malinconico - 24010009: Nota 8
 -> Métodos da POO, Criação da classe Jogo e Partida, e implementações em outras classes, implementações de
